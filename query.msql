@@ -28,7 +28,7 @@ create table TPS (
     PRIMARY KEY (Kode_TPS)
 ) ;
     
-create table USER (
+create table AKUN (
     USERNAME int(12) not null,
     PASSWORD varchar(20) not null,
     FOREIGN KEY (USERNAME) REFERENCES mahasiswa(NPM)
@@ -41,15 +41,5 @@ create table voting (
     Waktu date not null,
     FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM),
     FOREIGN KEY (NO_URUT) REFERENCES kandidat(NO_URUT),
-    FOREIGN KEY (Kode_TPS) REFERENCES TPS(Kode_TPS),
+    FOREIGN KEY (Kode_TPS) REFERENCES TPS(Kode_TPS)
 );
-
-
-
-
-
-
-
-    
-    
-    
