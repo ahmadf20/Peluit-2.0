@@ -1,0 +1,55 @@
+create database peluit;
+use peluit;
+create table mahasiswa (
+    NPM int(12) not null,
+    Nama varchar(30) not null,
+    TTL date not null,
+    No_Telepon int(13) not null,
+    Email varchar(30) not null,
+    Jurusan varchar(20) not null,
+    Angkatan int(4) not null,
+    Alamat varchar(50) not null,
+    Validasi boolean default false,
+    PRIMARY KEY (NPM) 
+    );
+
+create table kandidat (
+    Nama varchar(30) not null,
+    NPM int(12) not null,
+    NO_URUT int(2) not null,
+    VISI_MISI varchar(6000) not null,
+    PRIMARY KEY (NO_URUT),
+    FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM)
+    );
+
+create table TPS (
+    Kode_TPS varchar(5) not null,
+    Lokasi varchar(30) not null,
+    PRIMARY KEY (Kode_TPS)
+) ;
+    
+create table USER (
+    USERNAME int(12) not null,
+    PASSWORD varchar(20) not null,
+    FOREIGN KEY (USERNAME) REFERENCES mahasiswa(NPM)
+);
+
+create table voting (
+    NPM int(12) not null,
+    NO_URUT int(2) not null,
+    Kode_TPS varchar(5) not null,
+    Waktu date not null,
+    FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM),
+    FOREIGN KEY (NO_URUT) REFERENCES kandidat(NO_URUT),
+    FOREIGN KEY (Kode_TPS) REFERENCES TPS(Kode_TPS),
+);
+
+
+
+
+
+
+
+    
+    
+    
