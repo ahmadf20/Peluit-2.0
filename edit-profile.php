@@ -1,26 +1,26 @@
 <!-- 
-    TAMBAHKAN FUNGSI UPDATE SAAT DI PENCET TOMBOL DONE, LALU MENAMPIKAN PROFILE.PHP KEMBALI
+    
  -->
 
- <?php
+<?php
 
-  require_once("config.php");
-  require_once("auth.php");
+require_once("config.php");
+require_once("auth.php");
 
-  //---select data-----
-  $npm = $_SESSION["user"]["USERNAME"];
-  
-  $sql = "SELECT * FROM mahasiswa WHERE $npm=mahasiswa.npm";
-  $stmt = $db->prepare($sql);
+//---select data-----
+$npm = $_SESSION["user"]["USERNAME"];
 
-  $stmt->execute();
+$sql = "SELECT * FROM mahasiswa WHERE $npm=mahasiswa.npm";
+$stmt = $db->prepare($sql);
 
-  $result = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->execute();
 
-  
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-   //----updating data-----
-if(isset($_POST['edit'])){
+
+
+//----updating data-----
+if (isset($_POST['edit'])) {
 
   // ambil data dari formulir
   $ttl = $_POST['ttl'];
@@ -45,24 +45,34 @@ if(isset($_POST['edit'])){
 
   // bind parameter ke query
   $params = array(
-      ":npm" => $npm,
-      ":nama" => $name,
-      ":ttl" => $ttl,
-      ":telp" => $telp,
-      ":email" => $email,
-      ":jurusan" => $jurusan,
-      ":angkatan" => $angkatan,
-      ":alamat" => $alamat
+    ":npm" => $npm,
+    ":nama" => $name,
+    ":ttl" => $ttl,
+    ":telp" => $telp,
+    ":email" => $email,
+    ":jurusan" => $jurusan,
+    ":angkatan" => $angkatan,
+    ":alamat" => $alamat
   );
 
- 
   // eksekusi query untuk menyimpan ke database
   $saved = $stmt->execute($params);
+  
+  //--update table akun(pass)
+  $sql = "UPDATE Akun SET Username=:npm, Akun.password=:pass WHERE Username=:npm";
+  $stmt = $db->prepare($sql);
 
-  // jika query simpan berhasil, maka user sudah terdaftar
-  // maka alihkan ke halaman login
-  if($saved) {
+  $params = array(
+    ":npm" => $npm,
+    ":pass" => $password
+  );
+
+  $saved = $stmt->execute($params);
+
+  // jika query simpan berhasil, maka alihkan ke halaman profile
+  if ($saved) {
     header("Location: profile.php");
+    $_SESSION["user"]["PASSWORD"] = $password;
     $_SESSION["alert"] = true;
   };
 }
@@ -126,14 +136,14 @@ if(isset($_POST['edit'])){
                 </div>
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                  <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address" value="<?php echo $result["Email"]; ?>" name="email">
+                    <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email Address" value="<?php echo $result["Email"]; ?>" name="email">
                   </div>
                   <div class="col-sm-6">
                     <input type="number" class="form-control form-control-user" id="exampleRepeatPassword" placeholder="Phone Number" value="<?php echo $result["No_Telepon"]; ?>" name="telp" maxlength="12">
                   </div>
                 </div>
                 <div class="form-group">
-                <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" value="<?php echo $_SESSION["user"]["PASSWORD"]; ?>" name="password" maxlength="16">
+                  <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password" value="<?php echo $_SESSION["user"]["PASSWORD"]; ?>" name="password" maxlength="16">
                 </div>
                 <!-- <a href="login.html" class="btn btn-primary btn-user btn-block">
                   Register Account

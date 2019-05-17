@@ -26,9 +26,12 @@ class Library
         $query = $this->db->query($sql);
         return $query;
     }
-    public function updateMhs($kode, $judul, $pengarang, $penerbit)
+    public function updateMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password)
     {
-        $sql = "UPDATE books SET judulBuku='$judul', pengarang='$pengarang', penerbit='$penerbit' WHERE kodeBuku='$kode'";
+        $sql = "UPDATE mahasiswa SET npm='$npm', nama='$nama', ttl='$ttl', no_telepon='$telp', email='$email', jurusan='$jurusan', angkatan='$angkatan', alamat='$alamat' WHERE npm='$npm'";
+        $query = $this->db->query($sql);
+        
+        $sql = "UPDATE Akun SET Username='$npm', Akun.password=:'$password' WHERE Username='$npm'";
         $query = $this->db->query($sql);
         if (!$query) {
             return "Failed";
@@ -36,16 +39,23 @@ class Library
             return "Success";
         }
     }
-
-    public function showBooks()
+    public function showMhs()
     {
-        $sql = "SELECT * FROM books";
+        $sql = "SELECT * FROM mahasiswa";
         $query = $this->db->query($sql);
         return $query;
     }
-    public function deleteBook($kode)
+    public function deleteMhs($npm)
     {
-        $sql = "DELETE FROM books WHERE kodeBuku='$kode'";
+        $sql = "DELETE FROM akun WHERE username='$npm'";
         $query = $this->db->query($sql);
+
+        $sql = "DELETE FROM mahasiswa WHERE npm='$npm'";
+        $query = $this->db->query($sql);
+        if (!$query) {
+            return "Failed";
+        } else {
+            return "Success";
+        }
     }
 }

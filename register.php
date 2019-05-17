@@ -43,7 +43,7 @@ if(isset($_POST['register'])){
 
     // jika query simpan berhasil, maka user sudah terdaftar
     // maka alihkan ke halaman login
-    if($saved) echo "Data berhasil ditambahkan";
+    // if($saved) echo "Data berhasil ditambahkan";
 
 
     // menyiapkan query untuk table akun
@@ -63,6 +63,7 @@ if(isset($_POST['register'])){
     // jika query simpan berhasil, maka user sudah terdaftar
     // maka alihkan ke halaman login
     if($saved) header("Location: login.php");
+
 }
 
 ?>
