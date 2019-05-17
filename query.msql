@@ -1,10 +1,16 @@
+<!-- 
+    BUG(S) TO FIX:
+    1. CANT DELETE TABLE of mahasiswa. IT'LL GIVE AN ERROR MESSAGE WHEN WE TRY TO DELETE TABLE of mahasiswa. ON DELETE CASCASE (?)
+    cannot update or delete a parent row!
+ -->
+
 create database peluit;
 use peluit;
 create table mahasiswa (
-    NPM int(12) not null,
+    NPM varchar(12) not null,
     Nama varchar(30) not null,
-    TTL date not null,
-    No_Telepon int(13) not null,
+    TTL varchar(30) not null,
+    No_Telepon varchar(13) not null,          
     Email varchar(30) not null,
     Jurusan varchar(20) not null,
     Angkatan int(4) not null,
@@ -15,7 +21,7 @@ create table mahasiswa (
 
 create table kandidat (
     Nama varchar(30) not null,
-    NPM int(12) not null,
+    NPM varchar(12) not null,
     NO_URUT int(2) not null,
     VISI_MISI varchar(6000) not null,
     PRIMARY KEY (NO_URUT),
@@ -29,13 +35,14 @@ create table TPS (
 ) ;
     
 create table AKUN (
-    USERNAME int(12) not null,
+    USERNAME varchar(12) not null,
     PASSWORD varchar(20) not null,
-    FOREIGN KEY (USERNAME) REFERENCES mahasiswa(NPM)
+    FOREIGN KEY (USERNAME) REFERENCES mahasiswa(NPM),
+    PRIMARY KEY (USERNAME)
 );
 
 create table voting (
-    NPM int(12) not null,
+    NPM varchar(12) not null,
     NO_URUT int(2) not null,
     Kode_TPS varchar(5) not null,
     Waktu date not null,
