@@ -80,7 +80,7 @@ if(isset($_POST['login'])){
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">WELCOME TO PEMILIHAN UMUM KETUA BEM KEMA FMIPA UNPAD!</h1>
                                     </div>
-                                    <form class="user" method="post">
+                                    <form class="user was-validated" method="post">
                                         <div class="form-group">
                                             <input type="username" class="form-control form-control-user"
                                                 id="exampleInputEmail" aria-describedby="emailHelp"

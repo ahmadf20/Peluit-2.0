@@ -15,15 +15,16 @@ create table mahasiswa (
     Jurusan varchar(20) not null,
     Angkatan int(4) not null,
     Alamat varchar(50) not null,
+    Photo ...?,                             //pake apa ini?
     Validasi boolean default false,
     PRIMARY KEY (NPM) 
     );
 
 create table kandidat (
-    Nama varchar(30) not null,
     NPM varchar(12) not null,
     NO_URUT int(2) not null,
-    VISI_MISI varchar(6000) not null,
+    VISI varchar(6000) not null,
+    MISI varchar(6000) not null,
     PRIMARY KEY (NO_URUT),
     FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM)
     );
@@ -37,6 +38,7 @@ create table TPS (
 create table AKUN (
     USERNAME varchar(12) not null,
     PASSWORD varchar(20) not null,
+    ADMIN boolean default false,
     FOREIGN KEY (USERNAME) REFERENCES mahasiswa(NPM),
     PRIMARY KEY (USERNAME)
 );
