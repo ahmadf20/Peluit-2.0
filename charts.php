@@ -1,68 +1,23 @@
 <?php
+// $db_host = "localhost";
+// $db_user = "root";
+// $db_pass = "";
+// $db_name = "peluit";
 
-require_once("config.php");
-
-if (isset($_POST['register'])) {
-
-    // ambil data dari formulir
-    $ttl = $_POST['ttl'];
-    $telp = $_POST['telp'];
-    $jurusan = $_POST['jurusan'];
-    $angkatan = $_POST['angkatan'];
-    $alamat = $_POST['alamat'];
-    $password = $_POST['password'];
-
-    // filter data yang diinputkan
-    $name = filter_input(INPUT_POST, 'nama', FILTER_SANITIZE_STRING);
-    $npm = filter_input(INPUT_POST, 'npm', FILTER_SANITIZE_STRING);
-    $username = filter_input(INPUT_POST, 'npm', FILTER_SANITIZE_STRING);
-    //! $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-    // enkripsi password
-    // $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-    $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
-
-    // menyiapkan query untuk table mahasiswa
-    $sql = "INSERT INTO mahasiswa (npm, nama, ttl, no_telepon, email, jurusan, angkatan, alamat) 
-            VALUES (:npm, :nama, :ttl, :telp, :email, :jurusan, :angkatan, :alamat)";
-    $stmt = $db->prepare($sql);
-
-    // bind parameter ke query
-    $params = array(
-        ":npm" => $npm,
-        ":nama" => $name,
-        ":ttl" => $ttl,
-        ":telp" => $telp,
-        ":email" => $email,
-        ":jurusan" => $jurusan,
-        ":angkatan" => $angkatan,
-        ":alamat" => $alamat
-    );
-
-    // eksekusi query untuk menyimpan ke database
-    $saved = $stmt->execute($params);
-
-    // jika query simpan berhasil, maka user sudah terdaftar
-    // maka alihkan ke halaman login
-    // if($saved) echo "Data berhasil ditambahkan";
+// $db = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
 
 
-    // menyiapkan query untuk table akun
-    $sql = "INSERT INTO akun (username, password) 
-            VALUES (:username, :password)";
-    $stmt = $db->prepare($sql);
+// $sql = "SELECT * FROM mahasiswa";
 
-    // bind parameter ke query
-    $params = array(
-        ":username" => $username,
-        ":password" => $password
-    );
+// $query = $db->query($sql);
 
-    // eksekusi query untuk menyimpan ke database
-    $saved = $stmt->execute($params);
+// while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+//     echo "$data[NPM] . $data[Angkatan] .";
+//     };
 
-    $alert = true;
-}
-
+$koneksi     = mysqli_connect("localhost", "root", "", "peluit");
+$bulan       = mysqli_query($koneksi, "SELECT NPM FROM voting ");
+$penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
 ?>
 
 <!DOCTYPE html>
@@ -76,7 +31,7 @@ if (isset($_POST['register'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>SB Admin 2 - Charts</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -84,6 +39,9 @@ if (isset($_POST['register'])) {
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <script src="vendor/chart.js/Chart.bundle.js"></script>
+
+
 
 </head>
 
@@ -96,7 +54,7 @@ if (isset($_POST['register'])) {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="daftarKandidat.php">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -107,8 +65,8 @@ if (isset($_POST['register'])) {
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="daftarKandidat.php">
+            <li class="nav-item">
+                <a class="nav-link" href="dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -122,7 +80,7 @@ if (isset($_POST['register'])) {
             </div>
 
             <!-- Nav Item - Charts -->
-            <li class="nav-item">
+            <li class="nav-item active">
                 <a class="nav-link" href="charts.php">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
@@ -164,12 +122,12 @@ if (isset($_POST['register'])) {
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>DPT</span>
                 </a>
-                <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Daftar Pemilih Tetap</h6> -->
-                        <a class="collapse-item active" href="tambahDPT.php">Tambah DPT</a>
+                        <a class="collapse-item" href="tambahDPT.php">Tambah DPT</a>
                         <a class="collapse-item" href="verifDPT.php">Verifikasi DPT</a>
-                        <a class="collapse-item" href="editDPT.php">Edit Data</a>
+                        <a class="collapse-item" href="editTPS.php">Edit Data</a>
                         <a class="collapse-item" href="dataDPT.php">DPT Terverifikasi</a>
                     </div>
                 </div>
@@ -396,98 +354,73 @@ if (isset($_POST['register'])) {
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid pr-3 pl-3">
-                    <?php
-                        if (isset($_POST['register'])) {
-                            if ($saved) {
-                                echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                                <strong>Selamat!</strong> Data berhasil ditambahkan.
-                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
-                                </button>
-                                </div>";
-                            } else {
-                                echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                                <strong>Error!</strong> Silakan coba lagi.
-                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
-                                </button>
-                                </div>";
-                            }
-                        }
-                    ?>
+                <div class="container-fluid">
+
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 ml-4 text-gray-800">Tambah Daftar Pemilih Tetap</h1>
-                    <p class="mb-4 ml-4">Tambahkan mahasiswa yang telah memenuhi persyaratan sebagai Daftar Pemilih Tetap di bawah ini.</p>
+                    <h1 class="h3 mb-2 text-gray-800">Grafik</h1>
+                    <p class="mb-4">Grafik dibawah ini menunjukkan hasil perolehan suara dari masing masing kandidat berdararkan berbagai aspek.</p>
 
-                    <div class="card o-hidden shadow border-0 ml-4 mr-4 mb-5">
-                        <div class="card-body p-0">
-                            <!-- Nested Row within Card Body -->
-                            <div class="row">
-                                <div class="p-5">
-                                    <div class="text-center">
-                                    </div>
-                                    <form class="user" method="post">
-                                        <div class="form-group">
-                                            <h1 class="h6  text-gray-800">Student ID : </h1>
-                                            <input type="text" class="form-control" id="customControlValidation1" name="npm" maxlength="12" autofocus required>
-                                        </div>
-                                        <div class="form-group">
-                                            <h1 class="h6  text-gray-800">Nama Lengkap : </h1>
-                                            <input type="text" class="form-control  " id="exampleFirstName" name="nama" maxlength="30" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <h1 class="h6  text-gray-800">Tempat & Tanggal Lahir : </h1>
-                                            <input type="text" class="form-control  " id="exampleFirstName" name="ttl" required>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <h1 class="h6  text-gray-800">Jurusan : </h1>
-                                                <input type="text" class="form-control  " id="exampleInputPassword" name="jurusan" required>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h1 class="h6  text-gray-800">Angkatan : </h1>
-                                                <input type="number" class="form-control  " id="exampleRepeatPassword" name="angkatan" maxlength="4" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <h1 class="h6  text-gray-800">ِِAlamat : </h1>
-                                            <input type="text" class="form-control  " id="exampleFirstName" name="alamat" required>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="col-sm-6 mb-3 mb-sm-0">
-                                                <h1 class="h6  text-gray-800">Email : </h1>
-                                                <input type="email" class="form-control  " id="exampleInputEmail" name="email" required>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h1 class="h6  text-gray-800">No Telepon : </h1>
-                                                <input type="number" class="form-control  " id="exampleRepeatPassword" name="telp" maxlength="12" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <h1 class="h6  text-gray-800">Password : </h1>
-                                            <input type="password" class="form-control  " id="exampleInputPassword" name="password" maxlength="12" required>
-                                        </div>
-                                        <!-- <a href="login.html" class="btn btn-primary btn-user btn-block">Register Account</a> -->
-                                        <input type="submit" value="Tambah Data" name="register" class="float-right mb-5 mt-3 btn btn-primary">
-                                    </form>
+                    <!-- Content Row -->
+
+                    <div class="row">
+
+                        <div class="col-xl-8 col-lg-7">
+
+                            <!-- Bar Chart -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
                                 </div>
+                                <div class="card-body">
+                                    <div class="chart-bar">
+                                        <canvas id="myBarChart"></canvas>
+                                    </div>
+                                    <hr>
+                                    Chart ini menunjukkan jumlah suara yang diperoleh oleh masing - masing calon berdasarkan Angkatan.
+                                </div>
+                            </div>
 
-                                <div class="col-lg-6 d-none d-lg-block" style="background:url(vendor/calon2.jpg);background-position:center;background-size:cover">
-                                    <!-- <img src="vendor/calon2.jpg" alt=""" height="7%" class="rounded mx-auto d-block"> -->
+                        </div>
+
+                        <!-- Donut Chart -->
+                        <div class="col-xl-4 col-lg-5">
+                            <div class="card shadow mb-4">
+                                <!-- Card Header - Dropdown -->
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Jumlah Suara Masuk</h6>
+                                </div>
+                                <!-- Card Body -->
+                                <div class="card-body">
+                                    <div class="chart-pie pt-4 pb-4">
+                                        <canvas id="myChart"></canvas>
+                                    </div>
+                                    <div class="mt-4 text-center small">
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-primary"></i> Direct
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-success"></i> Social
+                    </span>
+                    <span class="mr-2">
+                      <i class="fas fa-circle text-info"></i> Referral
+                    </span>
+                  </div>
+                                    <hr>
+                                    Chart ini menunjukkan jumlah suara yang diperoleh oleh masing - masing calon.
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
+                 
+                </div>
+
+            </div>
+            <!-- /.container-fluid -->
 
         </div>
-        <!-- /.container-fluid -->
+        <!-- End of Main Content -->
 
-    </div>
-    <!-- End of Main Content -->
 
     </div>
     <!-- End of Content Wrapper -->
@@ -519,6 +452,60 @@ if (isset($_POST['register'])) {
         </div>
     </div>
 
+    <script>
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [<?php while ($b = mysqli_fetch_array($bulan)) {
+                                echo '"' . $b['NPM'] . '",';
+                            } ?>],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [<?php while ($p = mysqli_fetch_array($penghasilan)) {
+                                echo '"' . $p['KODE_TPS'] . '",';
+                            } ?>],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false,
+                    fullWidth : false,
+                    position : 'bottom',
+                    boxWidth : '1000',
+                    padding : 30,
+                    labels: {
+                        fontColor: 'rgb(255, 99, 132)'
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                },
+                cutoutPercentage: 80,
+            },
+        });
+    </script>
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -533,8 +520,11 @@ if (isset($_POST['register'])) {
     <script src="vendor/chart.js/Chart.min.js"></script>
 
     <!-- Page level custom scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script>
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
+    <script src="js/demo/chart-bar-demo.js"></script>
 
 </body>
 

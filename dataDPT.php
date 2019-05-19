@@ -35,7 +35,7 @@ session_start();
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -47,7 +47,7 @@ session_start();
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -62,14 +62,14 @@ session_start();
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="charts.php">
                     <i class="fas fa-fw fa-chart-area"></i>
                     <span>Charts</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="perolehanSuara.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
             </li>
@@ -91,8 +91,8 @@ session_start();
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Kandidat:</h6> -->
-                        <a class="collapse-item" href="buttons.html">Tambah Kandidat</a>
-                        <a class="collapse-item" href="cards.html">Daftar Kandidat</a>
+                        <a class="collapse-item" href="tambahKandidat.php">Tambah Kandidat</a>
+                        <a class="collapse-item" href="daftarKandidat.php">Daftar Kandidat</a>
                     </div>
                 </div>
             </li>
@@ -124,7 +124,7 @@ session_start();
                     <div class="bg-white py-2 collapse-inner rounded">
                         <!-- <h6 class="collapse-header">Login Screens:</h6> -->
                         <a class="collapse-item" href="tambahTPS.php">Tambah TPS</a>
-                        <a class="collapse-item" href="register.html">Daftar TPS</a>
+                        <a class="collapse-item" href="daftarTPS.php">Daftar TPS</a>
                         <!-- <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Other Pages:</h6>
@@ -399,7 +399,7 @@ session_start();
                                             <th>No Telp</th>
                                             <th>Email</th>
                                             <th>Alamat</th>
-                                            <th colspan="2">Action</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -419,8 +419,8 @@ session_start();
                                             <td>$data->Email</td>
                                             <td>$data->Alamat</td>
                                             
-                                            <td><a class='btn btn-outline-danger btn-sm' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i></td>
-                                            <td><a class='btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>
+                                            <td class='text-center'><a class='btn btn-outline-danger btn-sm' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i>
+                                            <a class='mt-1 btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>
                                             </tr>";
                                         };
                                         ?>

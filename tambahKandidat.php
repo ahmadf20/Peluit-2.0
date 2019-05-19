@@ -1,12 +1,15 @@
 <?php
 require('Library.php');
-if (isset($_POST['register'])) {
-    $kodeTPS = $_POST['kodeTPS'];
-    $lokasiTPS = $_POST['lokasiTPS'];
+
+if (isset($_POST['tambah'])) {
+    $noUrut = $_POST['urut'];
+    $NPM = $_POST['NPM'];
+    $Visi = $_POST['visi'];
+    $Misi = $_POST['misi'];
 
     $Lib = new Library();
-    $add = $Lib->addTPS($kodeTPS, $lokasiTPS);
-}
+    $add = $Lib->addKandidat($noUrut, $NPM, $Visi, $Misi);
+};
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +43,7 @@ if (isset($_POST['register'])) {
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.php">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -52,7 +55,7 @@ if (isset($_POST['register'])) {
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" href="dashboard.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -74,7 +77,7 @@ if (isset($_POST['register'])) {
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
-                <a class="nav-link" href="tables.html">
+                <a class="nav-link" href="perolehanSuara.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Tables</span></a>
             </li>
@@ -336,7 +339,7 @@ if (isset($_POST['register'])) {
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
                     <?php
-                    if (isset($_POST['register'])) {
+                    if (isset($_POST['tambah'])) {
                         if ($add == "Success") {
                             echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
                             <strong>Selamat!</strong> Data berhasil ditambahkan.
@@ -367,18 +370,29 @@ if (isset($_POST['register'])) {
                                     </div>
                                     <form class="user" method="post">
                                         <div class="form-group">
-                                            <h1 class="h6  text-gray-800">Nama Lengkap : </h1>
-                                            <input type="text" class="form-control" id="customControlValidation1" name="lokasiTPS" maxlength="30" autofocus required>
+                                            <h1 class="h6  text-gray-800">No Urut : </h1>
+                                            <input type="number" class="form-control" id="exampleFirstName" name="urut" maxlength="1" required autofocus>
                                         </div>
                                         <div class="form-group">
-                                            <h1 class="h6  text-gray-800">Kode TPS : </h1>
-                                            <input type="text" class="form-control  " id="exampleFirstName" name="kodeTPS" maxlength="5" required>
+                                            <h1 class="h6  text-gray-800">NPM : </h1>
+                                            <input type="text" class="form-control" id="customControlValidation1" name="NPM" maxlength="30"  required>
+                                        </div>
+                                        <div class="form-group">
+                                            <h1 class="h6  text-gray-800">Visi : </h1>
+                                            <textarea class="form-control  " id="exampleFirstName" name="visi" required></textarea>
                                             <small id="passwordHelpBlock" class="form-text text-muted">
-                                                Kode TPS terdiri dari maksimal 5 karakter yang merupakan kombinasi dari angka dan huruf.
+                                                Berisi tujuan yang akan dicapai apabila Kandidat terpilih.
+                                            </small>
+                                        </div>
+                                        <div class="form-group">
+                                            <h1 class="h6  text-gray-800">Misi : </h1>
+                                            <textarea class="form-control  " id="exampleFirstName" name="misi" required></textarea>
+                                            <small id="passwordHelpBlock" class="form-text text-muted">
+                                                Berisi capaian yang akan dilakukan apabila Kandidat terpilih.
                                             </small>
                                         </div>
                                         <!-- <a href="login.html" class="btn btn-primary btn-user btn-block">Register Account</a> -->
-                                        <input type="submit" value="Tambah Data" name="register" class="float-right mb-2 mt-3 btn btn-primary">
+                                        <input type="submit" value="Tambah Data" name="tambah" class="float-right mb-2 mt-3 btn btn-primary">
                                     </form>
                                 </div>
 

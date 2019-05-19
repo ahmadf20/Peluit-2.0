@@ -21,12 +21,12 @@ create table mahasiswa (
     );
 
 create table kandidat (
-    NPM varchar(12) not null,
+    NPM varchar(12) not null UNIQUE,
     NO_URUT int(2) not null,
     VISI varchar(6000) not null,
     MISI varchar(6000) not null,
     PRIMARY KEY (NO_URUT),
-    FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM)
+    FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM),
     );
 
 create table TPS (
@@ -47,7 +47,7 @@ create table voting (
     NPM varchar(12) not null,
     NO_URUT int(2) not null,
     Kode_TPS varchar(5) not null,
-    Waktu date not null,
+    Waktu datetime not null,
     FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM),
     FOREIGN KEY (NO_URUT) REFERENCES kandidat(NO_URUT),
     FOREIGN KEY (Kode_TPS) REFERENCES TPS(Kode_TPS)

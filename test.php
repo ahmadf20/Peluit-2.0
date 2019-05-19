@@ -1,82 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+// $db_host = "localhost";
+// $db_user = "root";
+// $db_pass = "";
+// $db_name = "peluit";
+
+// $db = new PDO("mysql:host=$db_host;dbname=$db_name", $db_user, $db_pass);
+
+
+// $sql = "SELECT * FROM mahasiswa";
+
+// $query = $db->query($sql);
+
+// while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
+//     echo "$data[NPM] . $data[Angkatan] .";
+//     };
+
+$koneksi     = mysqli_connect("localhost", "root", "", "peluit");
+$bulan       = mysqli_query($koneksi, "SELECT NPM FROM voting ");
+$penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
+?>
+
+<html>
 
 <head>
-
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Voting</title>
-
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
-
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <title>Belajarphp.net - ChartJS</title>
+    <style type="text/css">
+        .container {
+            width: 50%;
+            margin: 15px auto;
+        }
+    </style>
+    <script src="vendor/chart.js/Chart.bundle.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.bundle.js"></script> -->
 
 </head>
 
 <body>
+
     <div class="container">
-        <h2>Daftar Buku yang Tersedia</h2>
-        <table class="table">
-            <tr>
-                <td>NPM</td>
-                <td>Nama</td>
-                <td>Jurusan</td>
-                <td>Angkatan</td>
-                <td>TTL</td>
-                <td>No Telp</td>
-                <td>Email</td>
-                <td>Alamat</td>
-                <td>Action</td>
-            </tr>
-            
-            <?php
-            require("Library.php");
-            $Lib = new Library();
-            $show = $Lib->showMhs();
-            while ($data = $show->fetch(PDO::FETCH_OBJ)) {
-                echo "
-                <tr>
-                <td>$data->NPM</td>
-                <td>$data->Nama</td>
-                <td>$data->Jurusan</td>
-                <td>$data->Angkatan</td>
-                <td>$data->TTL</td>
-                <td>$data->No_Telepon</td>
-                <td>$data->Email</td>
-                <td>$data->Alamat</td>
-                <td><a class='btn btn-danger' href='list.php?delete=$data->NPM'>Delete</a></td>
-                <td><a class='btn btn-info' href='edit.php?kode=$data->NPM'>Edit</td>
-                <td><a class='btn btn-success' href='edit.php?kode=$data->NPM'>Validasi</td>
-                </tr>";
-            };
-            ?>
-        </table>
-        <a href="index.php" class="btn btn-success">Tambah Buku Baru</a>
+        <canvas id="myChart" width="500" height="500"></canvas>
     </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-        <!-- Custom scripts for all pages-->
-        <script src="js/sb-admin-2.min.js"></script>
-
+    <script>
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [<?php while ($b = mysqli_fetch_array($bulan)) {
+                                echo '"' . $b['NPM'] . '",';
+                            } ?>],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [<?php while ($p = mysqli_fetch_array($penghasilan)) {
+                                echo '"' . $p['KODE_TPS'] . '",';
+                            } ?>],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 70,
+            },
+        });
+    </script>
 </body>
 
 </html>
-
-<?php
-if (isset($_GET['delete'])) {
-    $del = $Lib->deleteMhs($_GET['delete']);
-}
-?>

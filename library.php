@@ -3,7 +3,13 @@ class Library
 {
     public function __construct()
     {
-        $this->db = new PDO('mysql:host=localhost;dbname=peluit', 'root', '');
+        try {    
+            //create PDO connection 
+            $this->db = new PDO('mysql:host=localhost;dbname=peluit', 'root', '');
+        } catch(PDOException $e) {
+            //show error
+            die("Terjadi masalah: " . $e->getMessage());
+        }
     }
     public function addMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password)
     {
@@ -12,6 +18,18 @@ class Library
         $query = $this->db->query($sql);
 
         $sql = "INSERT INTO akun (username, password) VALUES ('$npm', '$password')";
+        $query = $this->db->query($sql);
+
+        if (!$query) {
+            return "Failed";
+        } else {
+            return "Success";
+        }
+    }
+    public function addKandidat($noUrut, $NPM, $visi, $misi)
+    {
+        $sql = "INSERT INTO kandidat (NO_URUT, NPM, VISI, MISI) 
+        VALUES ('$noUrut', '$NPM', '$visi', '$misi')";
         $query = $this->db->query($sql);
 
         if (!$query) {
@@ -44,6 +62,12 @@ class Library
         $query = $this->db->query($sql);
         return $query;
     }
+    public function editKandidat($NPM)
+    {
+        $sql = "SELECT * FROM kandidat WHERE NPM='$NPM'";
+        $query = $this->db->query($sql);
+        return $query;
+    }
     public function updateMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password)
     {
         $sql = "UPDATE mahasiswa SET npm='$npm', nama='$nama', ttl='$ttl', no_telepon='$telp', email='$email', jurusan='$jurusan', angkatan='$angkatan', alamat='$alamat' WHERE npm='$npm'";
@@ -68,9 +92,26 @@ class Library
             return "Success";
         }
     }
+    public function updateKandidat($NPM, $noUrut, $visi, $misi, $NPMbefore)
+    {
+        $sql = "UPDATE kandidat SET NPM='$NPM', NO_URUT='$noUrut', VISI='$visi', MISI='$misi' WHERE  NPM='$NPMbefore'";
+        $query = $this->db->query($sql);
+        
+        if (!$query) {
+            return "Failed";
+        } else {
+            return "Success";
+        }
+    }
     public function showMhsNoVerif()
     {
         $sql = "SELECT * FROM mahasiswa WHERE validasi=0";
+        $query = $this->db->query($sql);
+        return $query;
+    }
+    public function showSuara()
+    {
+        $sql = "SELECT * FROM voting";
         $query = $this->db->query($sql);
         return $query;
     }
@@ -83,6 +124,12 @@ class Library
     public function showTPS()
     {
         $sql = "SELECT * FROM tps";
+        $query = $this->db->query($sql);
+        return $query;
+    }
+    public function showKandidat()
+    {
+        $sql = "SELECT * FROM kandidat";
         $query = $this->db->query($sql);
         return $query;
     }
@@ -108,6 +155,17 @@ class Library
     public function deleteTPS($kodeTPS)
     {
         $sql = "DELETE FROM tps WHERE Kode_TPS='$kodeTPS'";
+        $query = $this->db->query($sql);
+
+        if (!$query) {
+            return "Failed";
+        } else {
+            return "Success";
+        }
+    }
+    public function deleteKandidat($NPM)
+    {
+        $sql = "DELETE FROM kandidat WHERE NPM='$NPM'";
         $query = $this->db->query($sql);
 
         if (!$query) {
