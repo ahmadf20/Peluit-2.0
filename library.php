@@ -115,6 +115,12 @@ class Library
         $query = $this->db->query($sql);
         return $query;
     }
+    public function showKandidatVote()
+    {
+        $sql = "SELECT * FROM kandidat";
+        $query = $this->db->query($sql);
+        return $query;
+    }
     public function showMhsVerif()
     {
         $sql = "SELECT * FROM mahasiswa WHERE validasi=1";
