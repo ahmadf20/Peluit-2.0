@@ -4,13 +4,6 @@ require_once("config.php");
 require_once("auth.php");
 
 $npm = $_SESSION["user"]["USERNAME"];
-
-$sql = "SELECT * FROM voting WHERE $npm=mahasiswa.npm";
-$stmt = $db->prepare($sql);
-
-$stmt->execute();
-
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -232,118 +225,80 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
-
-                    <?php
-                    if (isset($_SESSION['pressed'])) {
-                        if (isset($_SESSION['edited'])) {
-                            echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                            <strong>Selamat!</strong> Data berhasil diupdate.
-                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                            </button>
-                            </div>";
-                        } else {
-                            echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                            <strong>Error!</strong> Silakan coba lagi.
-                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                            </button>
-                            </div>";
-                        }
-                    }
-                    session_unset("pressed");
-                    session_unset("edited");
-
-                    if (isset($_GET['delete'])) {
-                        if (isset($_SESSION["delete"])) {
-                            echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                        <strong>Selamat!</strong> Data berhasil dihapus.
-                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
-                        </div>";
-                        } else {
-                            echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                            <strong>Error!</strong> Silakan coba lagi.
-                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                            </button>
-                        </div>";
-                        }
-                    }
-                    ?>
-
                     <!-- Page Heading -->
                     <div class="container">
-                            <h1 class="h3 ml-3 mb-2 text-gray-800">Daftar Calon</h1>
-                            <p class="mb-4 ml-3">Pilih calon yang sesuai dengan hati nurani anda.</p>
-                            <div class='alert alert-primary alert-dismissible fade show' style='margin-top:10px; margin-bottom:30px; ' role='alert'>
-                                <strong>Selamat Datang!</strong> Silakan klik tombol <strong>Vote</strong> untuk memilih. Anda dapat membaca visi, misi dan profil masing masing calon di bawah ini.
-                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                    <span aria-hidden='true'>&times;</span>
-                                </button>
-                            </div>
-                    <div class='row justify-content-around align-items-around' style='margin-bottom:50px;'>
-                        <?php
-                        require("Library.php");
-                        $Lib = new Library();
-                        $show = $Lib->showKandidatVote();
-                        while ($data = $show->fetch(PDO::FETCH_OBJ)) { ?>
-                            <!-- echo " -->
-                            <div class='col-md col-sm-12 col-bg-4 align-items-around text-center' style='margin-top:10px;'>
-                                <div class='card shadow-lg mb-5' style='max-width:500px; margin:0 auto;'>
-                                    <img src='vendor/calon1.jpg' class='card-img-top' alt='...'>
-                                    <div class='card-body'>
-                                        <h5 class='card-title'> <?php echo $data->NPM ?> </h5>
-                                        <p class='card-text'>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                                        <a href='#' class='btn btn-primary' style=' padding-left: 30px; padding-right: 30px'> Vote </a>
-                                        <hr>
-                                        <a href='#' class='card-link'>Card link</a>
-                                        <a href='#' class='card-link'>Another link</a>
-                                    </div>
-                                    <div class='card-footer'>
-                                        <small class='text-muted'><?php echo $data->NPM ?></small>
-                                    </div>
-                                    <div class='accordion' id='accordionExample'>
+                        <h1 class="h3 ml-3 mb-2 text-gray-800">Daftar Calon</h1>
+                        <p class="mb-4 ml-3">Pilih calon yang sesuai dengan hati nurani anda.</p>
+                        <div class='alert alert-primary alert-dismissible fade show' style='margin-top:10px; margin-bottom:30px; ' role='alert'>
+                            <strong>Selamat Datang!</strong> Silakan klik tombol <strong>Vote</strong> untuk memilih. Anda dapat membaca visi, misi dan profil masing masing calon di bawah ini.
+                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                            </button>
+                        </div>
+                        <div class='row justify-content-around align-items-around' style='margin-bottom:50px;'>
+                            <?php
+                            require("Library.php");
+                            $Lib = new Library();
+                            $show = $Lib->showKandidatVote();
+                            while ($data = $show->fetch(PDO::FETCH_OBJ)) { ?>
+                                <?php
+                                //select dari table mahasiswa untuk mengambil nama
+                                $sql = "SELECT * FROM mahasiswa WHERE NPM=$data->NPM";
+                                $stmt = $db->prepare($sql);
+                                $stmt->execute();
+                                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                                ?>
 
-                                        <div class='card'>
-                                            <div class='card-header' id='headingOne<?php echo $data->NO_URUT ?>'>
-                                                <h2 class='mb-0'>
-                                                    <button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseOne<?php echo $data->NO_URUT ?>' aria-expanded='true' aria-controls='collapseOne'>
-                                                        VISI
-                                                    </button>
-                                                </h2>
-                                            </div>
-                                            <div id='collapseOne<?php echo $data->NO_URUT ?>' class='collapse' aria-labelledby='headingOne' data-parent='#collapseOne<?php echo $data->NO_URUT ?>'>
-                                                <div class='card-body'>
-                                                    <?php echo $data->VISI ?>
+                                <div class='col-md col-sm-12 col-bg-4 align-items-around text-center' style='margin-top:10px;'>
+                                    <div class='card shadow-lg mb-5' style='max-width:500px; margin:0 auto;'>
+                                        <img src='vendor/calon1.jpg' class='card-img-top' alt='...'>
+                                        <div class='card-body'>
+                                            <h5 class='card-title'> <?php echo $result["Nama"] ?> </h5>
+                                            <p class='card-text'>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                            <a href='exitPage.php?<?php echo "NPM=$npm&noUrut=$data->NO_URUT&kodeTPS=12345" ?>' class='btn btn-primary' style=' padding-left: 30px; padding-right: 30px'> Vote </a>
+                                            <hr>
+                                            <a href='#' class='card-link'>Card link</a>
+                                            <a href='#' class='card-link'>Another link</a>
+                                        </div>
+                                        <div class='card-footer'>
+                                            <small class='text-muted'><?php echo $data->NPM ?></small>
+                                        </div>
+                                        <div class='accordion' id='accordionExample<?php echo $data->NO_URUT ?>'>
+
+                                            <div class='card'>
+                                                <div class='card-header' id='headingOne<?php echo $data->NO_URUT ?>'>
+                                                    <h2 class='mb-0'>
+                                                        <button class='btn btn-link' type='button' data-toggle='collapse' data-target='#collapseOne<?php echo $data->NO_URUT ?>' aria-expanded='true' aria-controls='collapseOne'>
+                                                            VISI
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id='collapseOne<?php echo $data->NO_URUT ?>' class='collapse' aria-labelledby='headingOne' data-parent='#accordionExample<?php echo $data->NO_URUT ?>'>
+                                                    <div class='card-body'>
+                                                        <?php echo $data->VISI ?>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
 
-                                        <div class='card'>
-                                            <div class='card-header' id='headingTwo<?php echo $data->NO_URUT ?>'>
-                                                <h2 class='mb-0'>
-                                                    <button class='btn btn-link collapsed' type='button' data-toggle='collapse' data-target='#collapseTwo<?php echo $data->NO_URUT ?>' aria-expanded='false' aria-controls='collapseTwo'>
-                                                        MISI
-                                                    </button>
-                                                </h2>
-                                            </div>
-                                            <div id='collapseTwo<?php echo $data->NO_URUT ?>' class='collapse' aria-labelledby='headingTwo' data-parent='#collapseTwo<?php echo $data->NO_URUT ?>'>
-                                                <div class='card-body'>
-                                                    <?php echo $data->MISI ?>
+                                            <div class='card'>
+                                                <div class='card-header' id='headingTwo<?php echo $data->NO_URUT ?>'>
+                                                    <h2 class='mb-0'>
+                                                        <button class='btn btn-link collapsed' type='button' data-toggle='collapse' data-target='#collapseTwo<?php echo $data->NO_URUT ?>' aria-expanded='false' aria-controls='collapseTwo'>
+                                                            MISI
+                                                        </button>
+                                                    </h2>
+                                                </div>
+                                                <div id='collapseTwo<?php echo $data->NO_URUT ?>' class='collapse' aria-labelledby='headingTwo' data-parent='#accordionExample<?php echo $data->NO_URUT ?>'>
+                                                    <div class='card-body'>
+                                                        <?php echo $data->MISI ?>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- "; -->
-
-                            </div>
-
-                        <?php }; ?>
-                        <!-- ?> -->
-                    </div>
+                            <?php }; ?>
+                        </div>
                     </div>
                     <!-- /.container-fluid -->
 
@@ -377,3 +332,4 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
 </body>
 
 </html>
+

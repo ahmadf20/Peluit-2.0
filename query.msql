@@ -43,8 +43,8 @@ create table AKUN (
     PRIMARY KEY (USERNAME)
 );
 
-create table voting (
-    NPM varchar(12) not null,
+create table vote (
+    NPM varchar(12) not null UNIQUE,
     NO_URUT int(2) not null,
     Kode_TPS varchar(5) not null,
     Waktu datetime not null,

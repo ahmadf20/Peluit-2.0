@@ -38,6 +38,18 @@ class Library
             return "Success";
         }
     }
+    public function voteKandidat($noUrut, $NPM, $kodeTPS)
+    {
+        $sql = "INSERT INTO vote (NO_URUT, NPM, Kode_TPS, Waktu) 
+        VALUES ('$noUrut', '$NPM', '$kodeTPS', now())";
+        $query = $this->db->query($sql);
+
+        if (!$query) {
+            return "Failed";
+        } else {
+            return "Success";
+        }
+    }
     public function addTPS($kodeTPS, $lokasiTPS)
     {
         $sql = "INSERT INTO tps (Kode_TPS, Lokasi) 
@@ -111,7 +123,7 @@ class Library
     }
     public function showSuara()
     {
-        $sql = "SELECT * FROM voting";
+        $sql = "SELECT * FROM vote";
         $query = $this->db->query($sql);
         return $query;
     }

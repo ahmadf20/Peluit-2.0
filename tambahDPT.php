@@ -186,7 +186,7 @@ if (isset($_POST['register'])) {
                         <!-- <h6 class="collapse-header">Login Screens:</h6> -->
                         <a class="collapse-item" href="tambahTPS.php">Tambah TPS</a>
                         <a class="collapse-item" href="daftarTPS.php">Daftar TPS</a>
-                        <!-- <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                        <!-- <a class="collapse-item" href="for`got`-password.html">Forgot Password</a>
             <div class="collapse-divider"></div>
             <h6 class="collapse-header">Other Pages:</h6>
             <a class="collapse-item" href="404.html">404 Page</a>

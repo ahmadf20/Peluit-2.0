@@ -1,16 +1,16 @@
 <?php
 
 require_once("config.php");
-require_once("auth.php");
+// require_once("auth.php");
 
-$npm = $_SESSION["user"]["USERNAME"];
+// $npm = $_SESSION["user"]["USERNAME"];
 
-$sql = "SELECT * FROM voting WHERE $npm=mahasiswa.npm";
-$stmt = $db->prepare($sql);
+// $sql = "SELECT * FROM voting WHERE $npm=mahasiswa.npm";
+// $stmt = $db->prepare($sql);
 
-$stmt->execute();
+// $stmt->execute();
 
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
+// $result = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -274,10 +274,10 @@ $result = $stmt->fetch(PDO::FETCH_ASSOC);
                     ?>
 
                     <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Daftar Calon</h1>
+                    <h1 class="h3 mb-2 text-gray-800">Daftar Calon <?php echo date('Y-m-d H:i:s');; ?> </h1>
                     <p class="mb-4">Pilih calon yang sesuai dengan hati nurani anda.</p>
                     <div class='alert alert-primary alert-dismissible fade show mr-6 ml-6' style='margin-top:10px; margin-bottom:-20px; ' role='alert'>
-                        <strong>Selamat Datang!</strong> Silakan klik tombol <strong>Vote</strong> untuk memilih. Anda dapat membaca visi, misi dan profil masing masing calon di bawah ini.
+                        <strong>Selamat Datang!</strong> Silakan klik tombol <strong>Vote</strong> untuk memilih. Anda dapat membaca visi, misi dan profil masing masing calon di bawah ini .
                         <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                             <span aria-hidden='true'>&times;</span>
                         </button>

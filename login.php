@@ -78,7 +78,7 @@ if(isset($_POST['login'])){
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
-                                        <h1 class="h4 text-gray-900 mb-4">WELCOME TO PEMILIHAN UMUM KETUA BEM KEMA FMIPA UNPAD!</h1>
+                                        <h1 class="h4 text-gray-900 mb-5">SELAMAT DATANG DI PEMILIHAN KETUA BEM KEMA FMIPA UNPAD 2019!</h1>
                                     </div>
                                     <form class="user was-validated" method="post">
                                         <div class="form-group">
@@ -90,20 +90,17 @@ if(isset($_POST['login'])){
                                             <input type="password" class="form-control form-control-user"
                                                 id="exampleInputPassword" placeholder="Password" name="password" maxlength="16" required>
                                         </div>
-                                        <!-- <div class="form-group">
+                                        <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
-                                                <input type="checkbox" class="custom-control-input" id="customCheck">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck" required>
                                                 <label class="custom-control-label" for="customCheck">I agree to the Terms and Conditions</label>
                                             </div>
-                                        </div> -->
-                                        <!-- <a href="login.php" class="btn btn-primary btn-user btn-block">
-                                            Login
-                                        </a> -->
-                                        <input type="submit" class="btn btn-primary btn-user btn-block" name="login" value="Login">
+                                        </div>
+                                        <input type="submit" class="btn btn-primary btn-user btn-block mb-4 mt-3" name="login" value="Login">
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="forgotPassword.php">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
                                         <a class="small" href="register.php">Create an Account!</a>

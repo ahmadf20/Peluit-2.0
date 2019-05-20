@@ -1,6 +1,6 @@
 
 <?php
-require_once("config.php");
+// require_once("config.php");
 session_start();
 ?>
 
@@ -368,7 +368,7 @@ session_start();
                     $show = $Lib->showSuara();
                     while ($data = $show->fetch(PDO::FETCH_OBJ)) {
                         echo "
-                        <tr >
+                        <tr>
                         <td>$data->NPM</td>
                         <td>$data->NO_URUT</td>
                         <td>$data->Kode_TPS</td>
