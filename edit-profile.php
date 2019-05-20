@@ -145,7 +145,7 @@ if (isset($_POST['edit'])) {
                   Register Account
                 </a> -->
                 <input type="submit" value="Done" name="edit" class="btn btn-primary btn-user btn-block" style="display:inline;width:30%; margin-right:0px; margin-left:auto; margin-top:8px; float:right; margin-bottom:50px">
-                <a href="profile.php" class="btn btn-secondary btn-user btn-block" style="display:inline;width:30%; margin-right:10px; margin-left:auto; margin-top:8px; float:right">Cancel</a>
+                <a href="javascript:history.go(-1)" class="btn btn-secondary btn-user btn-block" style="display:inline;width:30%; margin-right:10px; margin-left:auto; margin-top:8px; float:right">Cancel</a>
               </form>
             </div>
           </div>

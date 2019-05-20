@@ -1,40 +1,5 @@
 <?php 
-
-require_once("config.php");
-
-if(isset($_POST['login'])){
-
-    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
-    $password = $_POST['password'];
-
-    $sql = "SELECT * FROM akun WHERE username=:username and password=:password";
-    $stmt = $db->prepare($sql);
-    
-    // bind parameter ke query
-    $params = array(
-        ":username" => $username,
-        ":password" => $password
-        // ":email" => $username
-    );
-
-    $stmt->execute($params);
-
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    // print_r($user);
-
-    // jika user terdaftar
-    if($user){
-        // verifikasi password
-        //! if(($password == $user["password"])){ //error di sini -- $user["password"]
-            // buat Session
-            session_start();
-            // $_SESSION["user"] = $_POST['username'];
-            $_SESSION["user"] = $user;
-            // login sukses, alihkan ke halaman timeline
-            header("Location: profile.php");
-        // }
-    }
-}
+    require_once("config.php");
 ?>
 
 <!DOCTYPE html>
@@ -62,15 +27,54 @@ if(isset($_POST['login'])){
 </head>
 
 <body class="bg-gradient-primary">
-
     <div class="container">
-        
+
         <!-- Outer Row -->
         <div class="row justify-content-center">
-
             <div class="col-xl-10 col-lg-12 col-md-9">
-
                 <div class="card o-hidden border-0 shadow-lg my-5">
+                    <?php
+                        if(isset($_POST['login'])){
+
+                            $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
+                            $password = $_POST['password'];
+                        
+                            $sql = "SELECT * FROM akun join mahasiswa WHERE username=:username and password=:password and username=NPM";
+                            $stmt = $db->prepare($sql);
+                            
+                            $params = array(
+                                ":username" => $username,
+                                ":password" => $password
+                            );
+                            $stmt->execute($params);
+                            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+                            // print_r($user);
+                        
+                            // jika user terdaftar
+                            if($user){
+                                //jika user sudah divalidasi
+                                if ($user["Validasi"]) {
+                                        session_start();
+                                        $_SESSION["user"] = $user;
+                                        header("Location: voting.php");
+                                } else {
+                                    echo "<div class='alert text-center alert-dismissible fade show text-danger' style='margin-top:15px;' role='alert'>
+                                    <strong>Akses ditolak!</strong> User anda belum divalidasi.
+                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                    <span aria-hidden='true'>&times;</span>
+                                    </button>
+                                    </div>";
+                                }
+                            } else {    
+                                echo "<div class='alert text-center alert-dismissible fade show text-danger' style='margin-top:15px;' role='alert'>
+                                <strong>Akses ditolak!</strong> Username atau Password yang anda masukkan salah. Silakan coba lagi.
+                                <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                <span aria-hidden='true'>&times;</span>
+                                </button>
+                                </div>";
+                            }
+                        }
+                    ?>
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">

@@ -38,13 +38,13 @@
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-2">Forgot Password?</h1>
-                    <p class="mb-4">Hubungi admin dengan cara masukkan alamat email anda ke form dibawah ini! Atau Hubungi admin yang ada di TPS</p>
+                    <p class="mb-4">Masukkan alamat email anda ke form dibawah ini! Atau Hubungi admin yang ada di TPS</p>
                   </div>
                   <form class="user">
                     <div class="form-group">
                       <input type="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Masukkan Alamat Email...">
                     </div>
-                    <a href="login.html" class="btn btn-primary btn-user btn-block">
+                    <a href="login.php" class="btn btn-primary btn-user btn-block">
                       Reset Password
                     </a>
                   </form>

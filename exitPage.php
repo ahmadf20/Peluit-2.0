@@ -12,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Login</title>
+    <title>Logout</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -24,7 +24,6 @@
 </head>
 
 <body class="bg-gradient-light">
-
     <div class="container mt-5">
         <?php
         require_once("Library.php");
@@ -50,19 +49,8 @@
            }
         };
         ?>
-        <a class="btn btn-primary" href="login.php" role="button">Kembali ke halaman login</a>
+        <a href="login.php" role="button">← Kembali ke halaman login</a>
     </div>
-
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendo r /jquer y /jquer y .mi n .j s"></script>
-    <script src="vendo r /bootstra p /j s /bootstra p .bundl e .mi n .j s"></script>
-
-    <!-- Core plugin JavaScript-->
-    <script src="vendo r /jquer y -easin g /jquer y .easin g .mi n .j s"></script>
-
-    <!-- Custom scripts for all pages-->
-    <script src="j s /s b -admi n -2 .mi n .j s"></script>
-
 </body>
 
 </html>

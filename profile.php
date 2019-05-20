@@ -7,9 +7,7 @@
   
   $sql = "SELECT * FROM mahasiswa WHERE $npm=mahasiswa.npm";
   $stmt = $db->prepare($sql);
-
   $stmt->execute();
-
   $result = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
@@ -101,7 +99,6 @@
         </div>
       </div>
     </div>
-
   </div>
 
   <!-- Bootstrap core JavaScript-->
