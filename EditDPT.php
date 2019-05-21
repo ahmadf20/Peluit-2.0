@@ -22,8 +22,18 @@ if (isset($_POST['edit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    
+    $Foto = $_FILES['Foto']['name'];
+    $tmp = $_FILES['Foto']['tmp_name'];
+
+    //rename foto
+    $fotobaru = "$npm";
+    // Set path folder tempat menyimpan fotonya
+    $path = "images/$fotobaru";
+    move_uploaded_file($tmp, $path);
+
     $Lib = new Library();
-    $upd = $Lib->updateMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password);
+    $upd = $Lib->updateMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password, $fotobaru);
     if($upd == "Success"){
         header('Location: verifDPT.php');
     };
@@ -198,25 +208,25 @@ if (isset($_POST['edit'])) {
                         <!-- Topbar Navbar -->
                         <ul class="navbar-nav ml-auto">
 
-                            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                            <li class="nav-item dropdown no-arrow d-sm-none">
-                                <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-search fa-fw"></i>
-                                </a>
-                                <!-- Dropdown - Messages -->
-                                <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                                    <form class="form-inline mr-auto w-100 navbar-search">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                            <div class="input-group-append">
-                                                <button class="btn btn-primary" type="button">
-                                                    <i class="fas fa-search fa-sm"></i>
-                                                </button>
+                                <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                                <li class="nav-item dropdown no-arrow d-sm-none">
+                                    <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-search fa-fw"></i>
+                                    </a>
+                                    <!-- Dropdown - Messages -->
+                                    <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                                        <form class="form-inline mr-auto w-100 navbar-search">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                                                <div class="input-group-append">
+                                                    <button class="btn btn-primary" type="button">
+                                                        <i class="fas fa-search fa-sm"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
+                                        </form>
+                                    </div>
+                                </li>
 
                             <!-- Nav Item - Alerts -->
                             <li class="nav-item dropdown no-arrow mx-1">
@@ -391,7 +401,7 @@ if (isset($_POST['edit'])) {
                                     <div class="p-5">
                                         <div class="text-center">
                                         </div>
-                                        <form class="user" method="post">
+                                        <form class="user" method="post" enctype="multipart/form-data">
                                             <div class="form-group">
                                                 <h1 class="h6  text-gray-800">Student ID : </h1>
                                                 <input type="text" readonly class="form-control" id="exampleFirstName" placeholder="Student ID" value="<?php echo $edit->NPM; ?>" name="npm" maxlength="12">
@@ -438,12 +448,16 @@ if (isset($_POST['edit'])) {
                                                     echo $result['PASSWORD'];
                                                 ?>" name="password" maxlength="16">
                                             </div>
+                                            <div class="form-group">
+                                                <p>Upload foto anda di sini: </p>
+                                                <input type="file" class="mb-2" name="Foto" required>
+                                            </div>
                                             <input type="submit" value="Done" name="edit" class="float-right mb-2 mt-3 btn btn-primary">
                                             <a href="javascript:history.go(-1)" class="btn float-right mb-2 mr-2 mt-3 btn-secondary">Cancel</a>
                                         </form>
                                     </div>
 
-                                    <div class="col-lg-6 d-none d-lg-block" style="background:url(vendor/calon2.jpg);background-position:center;background-size:cover">
+                                    <div class="col-lg-6 d-none d-lg-block" style="background:url('images/<?php echo $edit->NPM ?>');background-position:center;background-size:cover">
                                         <!-- <img src="vendor/calon2.jpg" alt=""" height="7%" class="rounded mx-auto d-block"> -->
                                     </div>
                                 </div>

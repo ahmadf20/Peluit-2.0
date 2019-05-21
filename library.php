@@ -11,10 +11,10 @@ class Library
             die("Terjadi masalah: " . $e->getMessage());
         }
     }
-    public function addMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password)
+    public function addMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password, $foto)
     {
-        $sql = "INSERT INTO mahasiswa (npm, nama, ttl, no_telepon, email, jurusan, angkatan, alamat) 
-        VALUES ('$npm', '$nama', '$ttl', '$telp', '$email', '$jurusan', '$angkatan', '$alamat')";
+        $sql = "INSERT INTO mahasiswa (npm, nama, ttl, no_telepon, email, jurusan, angkatan, alamat, foto) 
+        VALUES ('$npm', '$nama', '$ttl', '$telp', '$email', '$jurusan', '$angkatan', '$alamat', '$foto')";
         $query = $this->db->query($sql);
 
         $sql = "INSERT INTO akun (username, password) VALUES ('$npm', '$password')";

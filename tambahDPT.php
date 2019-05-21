@@ -12,18 +12,24 @@ if (isset($_POST['register'])) {
     $alamat = $_POST['alamat'];
     $password = $_POST['password'];
 
+    $Foto = $_FILES['Foto']['name'];
+    $tmp = $_FILES['Foto']['tmp_name'];
+
     // filter data yang diinputkan
     $name = filter_input(INPUT_POST, 'nama', FILTER_SANITIZE_STRING);
     $npm = filter_input(INPUT_POST, 'npm', FILTER_SANITIZE_STRING);
     $username = filter_input(INPUT_POST, 'npm', FILTER_SANITIZE_STRING);
-    //! $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
-    // enkripsi password
-    // $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
     $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);
+    $validasi = 1; 
+    //rename foto
+    $fotobaru = "$npm";
 
+    // Set path folder tempat menyimpan fotonya
+    $path = "images/$fotobaru";
+    move_uploaded_file($tmp, $path);
     // menyiapkan query untuk table mahasiswa
-    $sql = "INSERT INTO mahasiswa (npm, nama, ttl, no_telepon, email, jurusan, angkatan, alamat) 
-            VALUES (:npm, :nama, :ttl, :telp, :email, :jurusan, :angkatan, :alamat)";
+    $sql = "INSERT INTO mahasiswa (npm, nama, ttl, no_telepon, email, jurusan, angkatan, alamat, Foto, Validasi) 
+    VALUES (:npm, :nama, :ttl, :telp, :email, :jurusan, :angkatan, :alamat, :fotobaru, :validasi)";
     $stmt = $db->prepare($sql);
 
     // bind parameter ke query
@@ -35,16 +41,13 @@ if (isset($_POST['register'])) {
         ":email" => $email,
         ":jurusan" => $jurusan,
         ":angkatan" => $angkatan,
-        ":alamat" => $alamat
+        ":alamat" => $alamat,
+        ":fotobaru" => $fotobaru,
+        ":validasi" => $validasi
     );
 
     // eksekusi query untuk menyimpan ke database
     $saved = $stmt->execute($params);
-
-    // jika query simpan berhasil, maka user sudah terdaftar
-    // maka alihkan ke halaman login
-    // if($saved) echo "Data berhasil ditambahkan";
-
 
     // menyiapkan query untuk table akun
     $sql = "INSERT INTO akun (username, password) 
@@ -60,9 +63,14 @@ if (isset($_POST['register'])) {
     // eksekusi query untuk menyimpan ke database
     $saved = $stmt->execute($params);
 
-    $alert = true;
+    // jika query simpan berhasil, maka user sudah terdaftar
+    // maka alihkan ke halaman login
+    if ($saved) {
+        header("tambahDPT.php");
+    } else {
+        $_SESSION["alert"] = true;
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -398,23 +406,23 @@ if (isset($_POST['register'])) {
                 <!-- Begin Page Content -->
                 <div class="container-fluid pr-3 pl-3">
                     <?php
-                        if (isset($_POST['register'])) {
-                            if ($saved) {
-                                echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
+                    if (isset($_POST['register'])) {
+                        if ($saved) {
+                            echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
                                 <strong>Selamat!</strong> Data berhasil ditambahkan.
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                                 <span aria-hidden='true'>&times;</span>
                                 </button>
                                 </div>";
-                            } else {
-                                echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
+                        } else {
+                            echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
                                 <strong>Error!</strong> Silakan coba lagi.
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                                 <span aria-hidden='true'>&times;</span>
                                 </button>
                                 </div>";
-                            }
                         }
+                    }
                     ?>
                     <!-- Page Heading -->
                     <h1 class="h3 mb-2 ml-4 text-gray-800">Tambah Daftar Pemilih Tetap</h1>
@@ -427,7 +435,7 @@ if (isset($_POST['register'])) {
                                 <div class="p-5">
                                     <div class="text-center">
                                     </div>
-                                    <form class="user" method="post">
+                                    <form class="user" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <h1 class="h6  text-gray-800">Student ID : </h1>
                                             <input type="text" class="form-control" id="customControlValidation1" name="npm" maxlength="12" autofocus required>
@@ -468,6 +476,11 @@ if (isset($_POST['register'])) {
                                             <h1 class="h6  text-gray-800">Password : </h1>
                                             <input type="password" class="form-control  " id="exampleInputPassword" name="password" maxlength="12" required>
                                         </div>
+                                        <div class="form-group">
+                                            <p>Upload foto anda di sini: </p>
+                                            <input type="file" class="mb-2" name="Foto" required>
+                                        </div>
+
                                         <!-- <a href="login.html" class="btn btn-primary btn-user btn-block">Register Account</a> -->
                                         <input type="submit" value="Tambah Data" name="register" class="float-right mb-5 mt-3 btn btn-primary">
                                     </form>

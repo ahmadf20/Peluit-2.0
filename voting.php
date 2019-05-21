@@ -1,9 +1,15 @@
 <?php
 
 require_once("config.php");
-require_once("auth.php");
+require("Library.php");
+require("auth.php");
 
 $npm = $_SESSION["user"]["USERNAME"];
+    //select dari table mahasiswa untuk mengambil nama pemilih
+    $sql = "SELECT * FROM mahasiswa WHERE NPM=$npm";
+    $stmt = $db->prepare($sql);
+    $stmt->execute();
+    $kode = $stmt->fetch(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -17,7 +23,8 @@ $npm = $_SESSION["user"]["USERNAME"];
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Pengambilan Suara</title>
+    <link rel="icon" href="vote.jpg">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -43,38 +50,89 @@ $npm = $_SESSION["user"]["USERNAME"];
                 <div class="container-fluid mt-5">
                     <!-- Page Heading -->
                     <div class="container">
-                        <h1 class="h3 ml-3 mb-2 text-gray-800">Daftar Calon</h1>
-                        <p class="mb-4 ml-3">Pilih calon yang sesuai dengan hati nurani anda.</p>
-                        <div class='alert alert-primary alert-dismissible fade show' style='margin-top:10px; margin-bottom:30px; ' role='alert'>
-                            <strong>Selamat Datang!</strong> Silakan klik tombol <strong>Vote</strong> untuk memilih. Anda dapat membaca visi, misi dan profil masing masing calon di bawah ini.
-                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                <span aria-hidden='true'>&times;</span>
-                            </button>
-                        </div>
+                        <h1 class="h3 ml-3 mb-2 text-gray-800">Selamat datang, <strong><?php echo $kode['Nama']; ?>!</strong></h1>
+                        <p class="mb-4 ml-3">Silakan klik tombol <span class="badge badge-primary">Vote</span> untuk memilih. Anda dapat membaca visi dan misi masing masing calon di bawah ini.</p>
                         <div class='row justify-content-around align-items-around' style='margin-bottom:50px;'>
                             <?php
-                            require("Library.php");
                             $Lib = new Library();
+                            //mengambil data dari tabel kandidat
                             $show = $Lib->showKandidatVote();
                             while ($data = $show->fetch(PDO::FETCH_OBJ)) { ?>
                                 <?php
-                                //select dari table mahasiswa untuk mengambil nama
-                                $sql = "SELECT * FROM mahasiswa WHERE NPM=$data->NPM";
-                                $stmt = $db->prepare($sql);
-                                $stmt->execute();
-                                $result = $stmt->fetch(PDO::FETCH_ASSOC);
+                                    //select dari table mahasiswa untuk mengambil data kandidat dari mahasiswa
+                                    $showData = $Lib->showPerson($data->NPM);
+                                    $dataMhs = $showData->fetch(PDO::FETCH_OBJ);
                                 ?>
 
-                                <div class='col-md col-sm-12 col-bg-4 align-items-around text-center' style='margin-top:10px;'>
+                                <div class='col-md-6 col-sm-12 col-bg-4 align-items-around text-center' style='margin-top:10px;'>
                                     <div class='card shadow-lg mb-5' style='max-width:500px; margin:0 auto;'>
-                                        <img src='vendor/calon1.jpg' class='card-img-top' alt='...'>
+                                        <img src='images/<?php echo $data->NPM?>' class='card-img-top' alt='...'>
+                                        <!-- <img src='images/$data->NPM' width='100' height='100'> -->
                                         <div class='card-body'>
-                                            <h5 class='card-title'> <?php echo $result["Nama"] ?> </h5>
+                                            <h5 class='card-title'> <?php echo $dataMhs->Nama ?> </h5>
                                             <p class='card-text'><?php echo substr($data->VISI, 0, 100) ?>...</p>
                                             <a href='exitPage.php?<?php echo "NPM=$npm&noUrut=$data->NO_URUT&kodeTPS=12345" ?>' class='btn btn-primary' style=' padding-left: 30px; padding-right: 30px'> Vote </a>
                                             <hr>
-                                            <a href='#' class='card-link'>Card link</a>
-                                            <a href='#' class='card-link'>Another link</a>
+                                            <!-- Button trigger modal -->
+                                            <a href="#" class="card-link"" data-toggle="modal" data-target="#exampleModalScrollable<?php echo $dataMhs->NPM ?>">
+                                            Lihat profil
+                                            </a>
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModalScrollable<?php echo $dataMhs->NPM ?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                                                <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body text-left">
+                                                    <div class="form-group">
+                                                        <h1 class="h6  text-gray-800">Student ID : </h1>
+                                                        <input type="text" readonly class="form-control" value="<?php echo $dataMhs->NPM ?>" name="npm">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h1 class="h6  text-gray-800">Nama Lengkap : </h1>
+                                                        <input type="text" class="form-control " value="<?php echo $dataMhs->Nama ?>" readonly>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h1 class="h6  text-gray-800">Tempat & Tanggal Lahir : </h1>
+                                                        <input type="text" class="form-control " value="<?php echo $dataMhs->TTL; ?>" readonly>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                                            <h1 class="h6  text-gray-800">Jurusan : </h1>
+                                                            <input type="text" class="form-control" value="<?php echo $dataMhs->Jurusan; ?>" readonly>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <h1 class="h6  text-gray-800">Angkatan : </h1>
+                                                            <input type="number" class="form-control" value="<?php echo $dataMhs->Angkatan; ?>" readonly>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <h1 class="h6  text-gray-800">Alamat : </h1>
+                                                        <input type="text" class="form-control " value="<?php echo $dataMhs->Alamat; ?>" readonly>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <div class="col-sm-6 mb-3 mb-sm-0">
+                                                            <h1 class="h6  text-gray-800">Email : </h1>
+                                                            <input type="email" class="form-control " Address" value="<?php echo $dataMhs->Email; ?>" name="email" readonly>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <h1 class="h6  text-gray-800">No Telepon : </h1>
+                                                            <input type="number" class="form-control" value="<?php echo $dataMhs->No_Telepon; ?>" readonly>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary">Done</button>
+                                                </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <!-- <a href='#' class='card-link'>Another link</a> -->
                                         </div>
                                         <div class='card-footer'>
                                             <small class='text-muted'><?php echo $data->NPM ?></small>

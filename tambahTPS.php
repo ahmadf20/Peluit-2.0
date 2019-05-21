@@ -389,7 +389,7 @@ if (isset($_POST['register'])) {
                                     </form>
                                 </div>
 
-                                <div class="col align-center d-none d-lg-block" style="background:url(vendor/calon2.jpg);background-position:center;background-size:cover">
+                                <div class="col align-center d-none d-lg-block" style="background:url(vendor/TPS.jpg);background-position:center;background-size:cover">
                                     <!-- <img src="vendor/calon2.jpg" alt=""" height="7%" class="rounded mx-auto d-block"> -->
                                 </div>
                             </div>

@@ -16,6 +16,7 @@ session_start();
     <meta name="author" content="">
 
     <title>SB Admin 2 - Dashboard</title>
+    <link rel="icon" href="vote.jpg">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -284,7 +285,7 @@ session_start();
                                         <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
                                         <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                                     </div>
-               s                 </a>
+                                </a>
                                 <a class="dropdown-item d-flex align-items-center" href="#">
                                     <div class="dropdown-list-image mr-3">
                                         <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
@@ -399,6 +400,7 @@ session_start();
                                             <th>No Telp</th>
                                             <th>Email</th>
                                             <th>Alamat</th>
+                                            <th>Foto</th>
                                             <th colspan="3"></th>
                                         </tr>
                                     </thead>
@@ -418,6 +420,7 @@ session_start();
                                             <td>$data->No_Telepon</td>
                                             <td>$data->Email</td>
                                             <td>$data->Alamat</td>
+                                            <td><img src='images/$data->NPM' width='100' height='100'></td>
                                             
                                             <td><a class='btn btn-outline-danger btn-sm' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i></td>
                                             <td><a class='btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>

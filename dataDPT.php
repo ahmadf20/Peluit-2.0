@@ -400,6 +400,7 @@ session_start();
                                             <th>Email</th>
                                             <th>Alamat</th>
                                             <th>Action</th>
+                                            <th>Foto</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -418,6 +419,7 @@ session_start();
                                             <td>$data->No_Telepon</td>
                                             <td>$data->Email</td>
                                             <td>$data->Alamat</td>
+                                            <td><img src='images/$data->NPM' width='100' height='100'></td>
                                             
                                             <td class='text-center'><a class='btn btn-outline-danger btn-sm' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i>
                                             <a class='mt-1 btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>

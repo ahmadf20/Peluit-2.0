@@ -10,6 +10,7 @@
   <meta name="author" content="">
 
   <title>SB Admin 2 - Forgot Password</title>
+  <link rel="icon" href="vote.jpg">
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -33,7 +34,7 @@
           <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-              <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+              <div class="col-lg-6 d-none d-lg-block" style="background:url(vendor/password.jpg);background-position:center;background-size:cover"></div>
               <div class="col-lg-6">
                 <div class="p-5">
                   <div class="text-center">

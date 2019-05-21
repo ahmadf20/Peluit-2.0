@@ -14,6 +14,7 @@
     <meta name="author" content="">
 
     <title>Login</title>
+    <link rel="icon" href="vote.jpg">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -67,7 +68,7 @@
                                 }
                             } else {    
                                 echo "<div class='alert text-center alert-dismissible fade show text-danger' style='margin-top:15px;' role='alert'>
-                                <strong>Akses ditolak!</strong> Username atau Password yang anda masukkan salah. Silakan coba lagi.
+                                <strong>Akses ditolak!</strong> Username atau Password yang anda masukkan salah atau anda belum terdaftar. Klik <a href='register.php' class='alert-link'> di sini </a> untuk mendaftar.
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                                 <span aria-hidden='true'>&times;</span>
                                 </button>
@@ -78,7 +79,7 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6 d-none d-lg-block" style="background:url(vendor/login.jpg);background-position:center;background-size:cover"></div>
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="text-center">
