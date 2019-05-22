@@ -53,19 +53,25 @@
                         
                             // jika user terdaftar
                             if($user){
-                                //jika user sudah divalidasi
-                                if ($user["Validasi"]) {
-                                        session_start();
-                                        $_SESSION["user"] = $user;
-                                        header("Location: voting.php");
+                                //jika admin
+                                if ($user["ADMIN"] == 1) {
+                                    header("Location: dashboard.php");
                                 } else {
-                                    echo "<div class='alert text-center alert-dismissible fade show text-danger' style='margin-top:15px;' role='alert'>
-                                    <strong>Akses ditolak!</strong> User anda belum divalidasi.
-                                    <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                                    <span aria-hidden='true'>&times;</span>
-                                    </button>
-                                    </div>";
+                                    //jika user sudah divalidasi
+                                    if ($user["Validasi"]) {
+                                            session_start();
+                                            $_SESSION["user"] = $user;
+                                            header("Location: voting.php");
+                                    } else {
+                                        echo "<div class='alert text-center alert-dismissible fade show text-danger' style='margin-top:15px;' role='alert'>
+                                        <strong>Akses ditolak!</strong> User anda belum divalidasi.
+                                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                        <span aria-hidden='true'>&times;</span>
+                                        </button>
+                                        </div>";
+                                    }
                                 }
+                                
                             } else {    
                                 echo "<div class='alert text-center alert-dismissible fade show text-danger' style='margin-top:15px;' role='alert'>
                                 <strong>Akses ditolak!</strong> Username atau Password yang anda masukkan salah atau anda belum terdaftar. Klik <a href='register.php' class='alert-link'> di sini </a> untuk mendaftar.

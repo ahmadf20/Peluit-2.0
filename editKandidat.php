@@ -2,7 +2,7 @@
 
 require_once("config.php");
 require('Library.php');
-
+session_start();
 
 // echo ($_GET['kode']);
 if (isset($_GET['kode'])) {
@@ -36,7 +36,8 @@ if (isset($_POST['edit'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Dashboard</title>
+    <title>Admin Dashboard</title>
+    <link rel="icon" href="vote.jpg">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -58,9 +59,9 @@ if (isset($_POST['edit'])) {
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.php">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-vote-yea"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Peluit <sup>2.0</sup></div>
+                <div class="sidebar-brand-text mx-3">PEMILU <sup>2.0</sup></div>
             </a>
 
             <!-- Divider -->
@@ -106,7 +107,7 @@ if (isset($_POST['edit'])) {
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
+                    <i class="fas fa-fw fa-user-tie"></i>
                     <span>Kandidat</span>
                 </a>
                 <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -121,7 +122,7 @@ if (isset($_POST['edit'])) {
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-fw fa-users"></i>
                     <span>DPT</span>
                 </a>
                 <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -138,7 +139,7 @@ if (isset($_POST['edit'])) {
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-map-marker-alt"></i>
                     <span>TPS</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -325,8 +326,8 @@ if (isset($_POST['edit'])) {
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ahmad Faaiz A</span>
+                                <img class="img-profile rounded-circle" src="images/default.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -359,7 +360,6 @@ if (isset($_POST['edit'])) {
                 <div class="container-fluid">
                     <?php
                         if (isset($_POST['edit'])) {
-                            session_start();
                             $_SESSION['pressed'] = true;
                             if ($upd == "Success") {
                                 $_SESSION['edited'] = true;
@@ -380,7 +380,7 @@ if (isset($_POST['edit'])) {
                                     <form class="user" method="post">
                                         <div class="form-group">
                                             <h1 class="h6  text-gray-800">No Urut : </h1>
-                                            <input type="text" class="form-control" id="customControlValidation1" placeholder="No Urut" value="<?php echo $edit->NO_URUT; ?>" name="noUrut" maxlength="1" autofocus required>
+                                            <input type="text" class="form-control" id="customControlValidation1" placeholder="No Urut" value="<?php echo $edit->NO_URUT; ?>" disabled name="noUrut" maxlength="1" autofocus required>
                                         </div>
                                         <div class="form-group">
                                             <h1 class="h6  text-gray-800">NPM : </h1>

@@ -16,14 +16,20 @@
 //     };
 
 $koneksi     = mysqli_connect("localhost", "root", "", "peluit");
-$bulan       = mysqli_query($koneksi, "SELECT NPM FROM voting ");
-$penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
+$noUrut       = mysqli_query($koneksi, "SELECT * FROM VOTE GROUP BY NO_URUT");
+$count     = mysqli_query($koneksi, "SELECT COUNT(NO_URUT) as A FROM VOTE GROUP BY NO_URUT");
+$angkatan    = mysqli_query($koneksi, "SELECT mahasiswa.angkatan as angkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");
+$countAngkatan   = mysqli_query($koneksi, "SELECT COUNT(Angkatan) as FrekuensiAngkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");
+$jurusan   = mysqli_query($koneksi, "SELECT mahasiswa.Jurusan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Jurusan");
+$countJurusan   = mysqli_query($koneksi, "SELECT COUNT(Jurusan) as FrekuensiJurusan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Jurusan");
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,6 +38,7 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
     <meta name="author" content="">
 
     <title>SB Admin 2 - Charts</title>
+    <link rel="icon" href="vote.jpg">
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -56,9 +63,9 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard.php">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
+                    <i class="fas fa-vote-yea"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">Peluit <sup>2.0</sup></div>
+                <div class="sidebar-brand-text mx-3">PEMILU <sup>2.0</sup></div>
             </a>
 
             <!-- Divider -->
@@ -136,7 +143,7 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
+                    <i class="fas fa-fw fa-map-marker-alt"></i>
                     <span>TPS</span>
                 </a>
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -172,159 +179,18 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
 
                 <!-- Topbar -->
                 <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
-
-                    <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button>
-
-                    <!-- Topbar Search -->
-                    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-
+                    
+                    <h1 class="h3 mt-2 ml-2 text-gray-800">Grafik</h1>
+                   
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-                                <form class="form-inline mr-auto w-100 navbar-search">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
-                                        <div class="input-group-append">
-                                            <button class="btn btn-primary" type="button">
-                                                <i class="fas fa-search fa-sm"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
-                                <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">3+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header">
-                                    Alerts Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 12, 2019</div>
-                                        <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-success">
-                                            <i class="fas fa-donate text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 7, 2019</div>
-                                        $290.29 has been deposited into your account!
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fas fa-exclamation-triangle text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div class="small text-gray-500">December 2, 2019</div>
-                                        Spending Alert: We've noticed unusually high spending for your account.
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                            </div>
-                        </li>
-
-                        <!-- Nav Item - Messages -->
-                        <li class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-envelope fa-fw"></i>
-                                <!-- Counter - Messages -->
-                                <span class="badge badge-danger badge-counter">7</span>
-                            </a>
-                            <!-- Dropdown - Messages -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
-                                <h6 class="dropdown-header">
-                                    Message Center
-                                </h6>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/fn_BT9fwg_E/60x60" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div class="font-weight-bold">
-                                        <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been having.</div>
-                                        <div class="small text-gray-500">Emily Fowler · 58m</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/AU4VPcFN4LE/60x60" alt="">
-                                        <div class="status-indicator"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">I have the photos that you ordered last month, how would you like them sent to you?</div>
-                                        <div class="small text-gray-500">Jae Chun · 1d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/CS2uCrpNzJY/60x60" alt="">
-                                        <div class="status-indicator bg-warning"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Last month's report looks great, I am very happy with the progress so far, keep up the good work!</div>
-                                        <div class="small text-gray-500">Morgan Alvarez · 2d</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <div class="dropdown-list-image mr-3">
-                                        <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60" alt="">
-                                        <div class="status-indicator bg-success"></div>
-                                    </div>
-                                    <div>
-                                        <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people say this to all dogs, even if they aren't good...</div>
-                                        <div class="small text-gray-500">Chicken the Dog · 2w</div>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-                            </div>
-                        </li>
-
-                        <div class="topbar-divider d-none d-sm-block"></div>
 
                         <!-- Nav Item - User Information -->
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-                                <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ahmad Faaiz A</span>
+                                <img class="img-profile rounded-circle" src="images/default.png">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -356,10 +222,6 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-2 text-gray-800">Grafik</h1>
-                    <p class="mb-4">Grafik dibawah ini menunjukkan hasil perolehan suara dari masing masing kandidat berdararkan berbagai aspek.</p>
-
                     <!-- Content Row -->
 
                     <div class="row">
@@ -369,11 +231,11 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
                             <!-- Bar Chart -->
                             <div class="card shadow mb-4">
                                 <div class="card-header py-3">
-                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Grafik bar berdararkan Angkatan</h6>
                                 </div>
                                 <div class="card-body">
                                     <div class="chart-bar">
-                                        <canvas id="myBarChart"></canvas>
+                                        <canvas id="BarChart" ></canvas>
                                     </div>
                                     <hr>
                                     Chart ini menunjukkan jumlah suara yang diperoleh oleh masing - masing calon berdasarkan Angkatan.
@@ -395,21 +257,39 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
                                         <canvas id="myChart"></canvas>
                                     </div>
                                     <div class="mt-4 text-center small">
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-primary"></i> Direct
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-success"></i> Social
-                    </span>
-                    <span class="mr-2">
-                      <i class="fas fa-circle text-info"></i> Referral
-                    </span>
-                  </div>
+                                        <span class="mr-2">
+                                        <i class="fas fa-circle text-primary"></i> #1
+                                        </span>
+                                        <span class="mr-2">
+                                        <i class="fas fa-circle text-success"></i> #2
+                                        </span>
+                                        <span class="mr-2">
+                                        <i class="fas fa-circle text-info"></i> #3
+                                        </span>
+                                    </div>
                                     <hr>
                                     Chart ini menunjukkan jumlah suara yang diperoleh oleh masing - masing calon.
                                 </div>
                             </div>
                         </div>
+
+                        <div class="col-xl-8 col-lg-7">
+                            <!-- Bar Chart 2-->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Bar Chart berdararkan Jurusan</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-bar">
+                                        <canvas id="BarChart#2"></canvas>
+                                    </div>
+                                    <hr>
+                                    Chart ini menunjukkan jumlah suara yang diperoleh oleh masing - masing calon berdasarkan Jurusan.
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
 
                  
@@ -420,7 +300,6 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
 
         </div>
         <!-- End of Main Content -->
-
 
     </div>
     <!-- End of Content Wrapper -->
@@ -453,19 +332,25 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
     </div>
 
     <script>
+        
+        // Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#858796';
+
+
         var ctx = document.getElementById("myChart");
         var myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: [<?php while ($b = mysqli_fetch_array($bulan)) {
-                                echo '"' . $b['NPM'] . '",';
-                            } ?>],
+                labels: [<?php while ($b = mysqli_fetch_array($noUrut)) {
+                            echo '"' . $b['NO_URUT'] . '",';
+                        } ?>],
                 datasets: [{
                     label: '# of Votes',
-                    data: [<?php while ($p = mysqli_fetch_array($penghasilan)) {
-                                echo '"' . $p['KODE_TPS'] . '",';
+                    data:   [<?php while ($b = mysqli_fetch_array($count)) {
+                                echo '"' . $b['A'] . '",';
                             } ?>],
-                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc'],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', ],
                     hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
                     hoverBorderColor: "rgba(234, 236, 244, 1)",
                     borderWidth: 2
@@ -501,9 +386,170 @@ $penghasilan = mysqli_query($koneksi, "SELECT KODE_TPS FROM voting");
                         bottom: 0
                     }
                 },
+                // scales: {
+                //     xAxes: [{
+                //         barPercentage: 0.5,
+                //         barThickness: 6,
+                //         maxBarThickness: 8,
+                //         minBarLength: 2,
+                //         gridLines: {
+                //             offsetGridLines: true
+                //         }
+                //     }]
+                // },
                 cutoutPercentage: 80,
             },
         });
+        
+// Bar Chart Angkatan
+var ctx = document.getElementById("BarChart");
+            var BarChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [<?php while ($b = mysqli_fetch_array($angkatan)) {
+                                echo '"' . $b['angkatan'] . '",';
+                            } ?>],
+                    datasets: [{
+                            label: '# of Votes',
+                            data:   [<?php while ($b = mysqli_fetch_array($countAngkatan)) {
+                                echo '"' . $b['FrekuensiAngkatan'] . '",';
+                            } ?>],
+                    backgroundColor: [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(255, 159, 64, 1)'
+                            ],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                        maxTicksLimit: 6
+                        },
+                        maxBarThickness: 50,
+                        }],
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                            },
+                        }]    
+                    },
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false,
+                    fullWidth : false,
+                    position : 'bottom',
+                    boxWidth : '1000',
+                    padding : 10,
+                    labels: {
+                        fontColor: 'rgb(255, 255, 132)'
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                },
+            },
+        });
+        
+// Bar Chart Jurusan
+    var ctx = document.getElementById("BarChart#2");
+        var BarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [<?php while ($b = mysqli_fetch_array($jurusan)) {
+                            echo '"' . $b['Jurusan'] . '",';
+                        } ?>],
+                datasets: [{
+                        label: '# of Votes',
+                        data:   [<?php while ($b = mysqli_fetch_array($countJurusan)) {
+                            echo '"' . $b['FrekuensiJurusan'] . '",';
+                        } ?>],
+                backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                        maxTicksLimit: 6
+                        },
+                        maxBarThickness: 50,
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    }]
+                },                
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false,
+                    fullWidth : false,
+                    position : 'bottom',
+                    boxWidth : '1000',
+                    padding : 10,
+                    labels: {
+                        fontColor: 'rgb(255, 255, 132)'
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+        },
+    });
     </script>
 
     <!-- Bootstrap core JavaScript-->

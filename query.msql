@@ -22,11 +22,11 @@ create table mahasiswa (
 
 create table kandidat (
     NPM varchar(12) not null UNIQUE,
-    NO_URUT int(2) not null,
+    NO_URUT int(2) not null UNIQUE,
     VISI varchar(6000) not null,
     MISI varchar(6000) not null,
     PRIMARY KEY (NO_URUT),
-    FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM),
+    FOREIGN KEY (NPM) REFERENCES mahasiswa(NPM)
     );
 
 create table TPS (
