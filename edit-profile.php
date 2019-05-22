@@ -85,7 +85,7 @@ if (isset($_POST['edit'])) {
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Edit Profile</title>
+<title>Edit Profile</title>
   <link rel="icon" href="vote.jpg">
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

@@ -1,5 +1,6 @@
 <?php 
     require_once("config.php");
+    session_start();
 ?>
 
 <!DOCTYPE html>
@@ -55,11 +56,11 @@
                             if($user){
                                 //jika admin
                                 if ($user["ADMIN"] == 1) {
-                                    header("Location: dashboard.php");
+                                        $_SESSION["user"] = $user;
+                                        header("Location: dashboard.php");
                                 } else {
                                     //jika user sudah divalidasi
                                     if ($user["Validasi"]) {
-                                            session_start();
                                             $_SESSION["user"] = $user;
                                             header("Location: voting.php");
                                     } else {

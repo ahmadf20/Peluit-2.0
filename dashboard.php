@@ -1,3 +1,30 @@
+<?php
+  require_once("auth.php");
+  require_once("config.php");
+
+//---select data-----
+
+$sql = "SELECT count(*) as A FROM vote";
+$stmt = $db->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$sql = "SELECT count(*) as A FROM mahasiswa";
+$stmt = $db->prepare($sql);
+$stmt->execute();
+$jumlahMhs = $stmt->fetch(PDO::FETCH_ASSOC);
+
+
+
+$koneksi     = mysqli_connect("localhost", "root", "", "peluit");
+$noUrut       = mysqli_query($koneksi, "SELECT * FROM VOTE GROUP BY NO_URUT");
+$count     = mysqli_query($koneksi, "SELECT COUNT(NO_URUT) as A FROM VOTE GROUP BY NO_URUT");
+$angkatan    = mysqli_query($koneksi, "SELECT mahasiswa.angkatan as angkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");
+$countAngkatan   = mysqli_query($koneksi, "SELECT COUNT(Angkatan) as FrekuensiAngkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");
+$jurusan   = mysqli_query($koneksi, "SELECT mahasiswa.Jurusan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Jurusan");
+$countJurusan   = mysqli_query($koneksi, "SELECT COUNT(Jurusan) as FrekuensiJurusan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Jurusan");
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -162,25 +189,12 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Ahmad Faaiz A</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["user"]["USERNAME"] ?></span>
                 <img class="img-profile rounded-circle" src="images/default.png">
               </a>
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                <a class="dropdown-item" href="logout.php">
                   <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                   Logout
                 </a>
@@ -199,13 +213,13 @@
           <div class="row">
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
               <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Jumlah Pemilih</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">250</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlahMhs["A"] ?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -216,13 +230,13 @@
             </div>
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
               <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Sudah memilih</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">35%</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo$result["A"] . " (" . number_format(($result["A"]/$jumlahMhs["A"]*100),2,".","") . "%)";?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-user-check fa-2x text-gray-300"></i>
@@ -233,33 +247,16 @@
             </div>
 
             <!-- Earnings (Monthly) Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
+            <div class="col-xl-4 col-md-6 mb-4">
               <div class="card border-left-danger shadow h-100 py-2">
                 <div class="card-body">
                   <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                       <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Belum memilih</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">65%</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800"><?php echo $jumlahMhs["A"]-$result["A"] . " (" . number_format(((($jumlahMhs["A"]-$result["A"])/$jumlahMhs["A"])*100),2,".","") . "%)";?></div>
                     </div>
                     <div class="col-auto">
                       <i class="fas fa-user-times fa-2x text-gray-300"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Pending Requests Card Example -->
-            <div class="col-xl-3 col-md-6 mb-4">
-              <div class="card border-left-warning shadow h-100 py-2">
-                <div class="card-body">
-                  <div class="row no-gutters align-items-center">
-                    <div class="col mr-2">
-                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Suara Sah</div>
-                      <div class="h5 mb-0 font-weight-bold text-gray-800">50%</div>
-                    </div>
-                    <div class="col-auto">
-                      <i class="fas fa-inbox fa-2x text-gray-300"></i>
                     </div>
                   </div>
                 </div>
@@ -281,7 +278,7 @@
                 <!-- Card Body -->
                 <div class="card-body">
                   <div class="chart-bar">
-                      <canvas id="myBarChart"></canvas>
+                      <canvas id="BarChart"></canvas>
                   </div>
                 </div>
               </div>
@@ -318,39 +315,6 @@
           <!-- Content Row -->
           <div class="row">
 
-            <!-- Content Column -->
-            <div class="col-lg-6 mb-4">
-
-              <!-- Project Card Example -->
-              <div class="card shadow mb-4">
-                <div class="card-header py-3">
-                  <h6 class="m-0 font-weight-bold text-primary">Projects</h6>
-                </div>
-                <div class="card-body">
-                  <h4 class="small font-weight-bold">Server Migration <span class="float-right">20%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-danger" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Sales Tracking <span class="float-right">40%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-warning" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Customer Database <span class="float-right">60%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar" role="progressbar" style="width: 60%" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Payout Details <span class="float-right">80%</span></h4>
-                  <div class="progress mb-4">
-                    <div class="progress-bar bg-info" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                  <h4 class="small font-weight-bold">Account Setup <span class="float-right">Complete!</span></h4>
-                  <div class="progress">
-                    <div class="progress-bar bg-success" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             <div class="col-lg-6 mb-4">
 
               <!-- Illustrations -->
@@ -366,6 +330,8 @@
                   <a target="_blank" rel="nofollow" href="https://undraw.co/">Browse Illustrations on unDraw &rarr;</a>
                 </div>
               </div>
+            </div>
+            <div class="col-lg-6 mb-4">
 
               <!-- Approach -->
               <div class="card shadow mb-4">
@@ -398,25 +364,6 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <!-- Logout Modal-->
-  <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
-        <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- Bootstrap core JavaScript-->
   <script src="vendor/jquery/jquery.min.js"></script>
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -431,8 +378,148 @@
   <script src="vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/chart-bar-demo.js"></script>
-  <script src="js/demo/chart-pie-demo.js"></script>
+  <script>
+    Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#858796';
+
+        var ctx = document.getElementById("myPieChart");
+        var myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: [<?php while ($b = mysqli_fetch_array($noUrut)) {
+                            echo '"' . $b['NO_URUT'] . '",';
+                        } ?>],
+                datasets: [{
+                    label: '# of Votes',
+                    data:   [<?php while ($b = mysqli_fetch_array($count)) {
+                                echo '"' . $b['A'] . '",';
+                            } ?>],
+                    backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', ],
+                    hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false,
+                    fullWidth : false,
+                    position : 'bottom',
+                    boxWidth : '1000',
+                    padding : 30,
+                    labels: {
+                        fontColor: 'rgb(255, 99, 132)'
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        bottom: 0
+                    }
+                },
+                // scales: {
+                //     xAxes: [{
+                //         barPercentage: 0.5,
+                //         barThickness: 6,
+                //         maxBarThickness: 8,
+                //         minBarLength: 2,
+                //         gridLines: {
+                //             offsetGridLines: true
+                //         }
+                //     }]
+                // },
+                cutoutPercentage: 80,
+            },
+        });
+        
+// Bar Chart Jurusan
+    var ctx = document.getElementById("BarChart");
+        var BarChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [<?php while ($b = mysqli_fetch_array($jurusan)) {
+                            echo '"' . $b['Jurusan'] . '",';
+                        } ?>],
+                datasets: [{
+                        label: '# of Votes',
+                        data:   [<?php while ($b = mysqli_fetch_array($countJurusan)) {
+                            echo '"' . $b['FrekuensiJurusan'] . '",';
+                        } ?>],
+                backgroundColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                borderWidth: 2
+                }]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                        maxTicksLimit: 6
+                        },
+                        maxBarThickness: 50,
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                        },
+                    }]
+                },                
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: true,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false,
+                    fullWidth : false,
+                    position : 'bottom',
+                    boxWidth : '1000',
+                    padding : 10,
+                    labels: {
+                        fontColor: 'rgb(255, 255, 132)'
+                    }
+                },
+                layout: {
+                    padding: {
+                        left: 10,
+                        right: 25,
+                        top: 25,
+                        bottom: 0
+                    }
+                },
+        },
+    });
+  </script>
 
 </body>
 
