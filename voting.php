@@ -50,10 +50,18 @@ $npm = $_SESSION["user"]["USERNAME"];
                 <div class="container-fluid mt-5">
                     <!-- Page Heading -->
                     <div class="container">
-                        <h1 class="h3 ml-3 mb-2 text-gray-800">Selamat datang, <strong><?php echo $kode['Nama']; ?>!</strong></h1>
-                        <p class="mb-4 ml-3">Silakan klik tombol <span class="badge badge-primary">Vote</span> untuk memilih. Anda dapat membaca visi dan misi masing masing calon di bawah ini.</p>
+                        <div class="row ml-2">
+                            <div class="col-1">
+                                <img class="img-profile rounded-circle border shadow" src="images/<?php echo $npm?>" width='65' height='65'>
+                            </div>
+                            <div class="col">
+                                <h1 class="h3 mb-2 text-gray-800">Selamat datang, <strong><?php echo $kode['Nama']; ?>!</strong></h1>
+                                <p class="mb-4">Silakan klik tombol <span class="badge badge-primary">Vote</span> untuk memilih. Anda dapat membaca visi dan misi masing masing calon di bawah ini.</p>
+                            </div>
+                        </div>
+                        <hr class="mt-0 mb-3">
                         <div class='row justify-content-around align-items-around' style='margin-bottom:50px;'>
-                            <?php
+                                <?php
                             $Lib = new Library();
                             //mengambil data dari tabel kandidat
                             $show = $Lib->showKandidatVote();

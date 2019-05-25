@@ -36,6 +36,7 @@
             <div class="col-xl-10 col-lg-12 col-md-9">
                 <div class="card o-hidden border-0 shadow-lg my-5">
                     <?php
+
                         if(isset($_POST['login'])){
 
                             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
@@ -62,7 +63,20 @@
                                     //jika user sudah divalidasi
                                     if ($user["Validasi"]) {
                                             $_SESSION["user"] = $user;
-                                            header("Location: voting.php");
+                                            // header("Location: voting.php");
+
+                                            $sql = "SELECT * FROM vote WHERE NPM = $username";
+                                            $stmt = $db->prepare($sql);
+                                            $stmt->execute();
+                                            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                                            //jika user sudah memilih
+                                            if($result['NPM']){
+                                                header("Location: exitPage.php");
+                                            } else {
+                                                $_SESSION["user"] = $user;
+                                                header("Location: voting.php");
+                                            }
                                     } else {
                                         echo "<div class='alert text-center alert-dismissible fade show text-danger' style='margin-top:15px;' role='alert'>
                                         <strong>Akses ditolak!</strong> User anda belum divalidasi.

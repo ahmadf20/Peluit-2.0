@@ -9,7 +9,7 @@ $stmt = $db->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$sql = "SELECT count(*) as A FROM mahasiswa";
+$sql = "SELECT count(*) as A FROM mahasiswa WHERE validasi = 1";
 $stmt = $db->prepare($sql);
 $stmt->execute();
 $jumlahMhs = $stmt->fetch(PDO::FETCH_ASSOC);
