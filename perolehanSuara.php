@@ -14,7 +14,7 @@ require_once("config.php");
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Tables</title>
+  <title>Admin Dashboard</title>
   <link rel="icon" href="vote.jpg">
 
   <!-- Custom fonts for this template -->
@@ -62,13 +62,6 @@ require_once("config.php");
 <div class="sidebar-heading ">
     Perolehan Suara
 </div>
-
-<!-- Nav Item - Charts -->
-<li class="nav-item">
-    <a class="nav-link" href="charts.php">
-        <i class="fas fa-fw fa-chart-area"></i>
-        <span>Charts</span></a>
-</li>
 
 <!-- Nav Item - Tables -->
 <li class="nav-item active">

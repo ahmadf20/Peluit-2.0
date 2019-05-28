@@ -25,7 +25,18 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- <style>
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+        }
 
+        input[type=number] {
+            -moz-appearance:textfield; /* Firefox */
+        }
+    </style> -->
 </head>
 
 <body class="bg-gradient-primary">
