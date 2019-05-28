@@ -1,5 +1,6 @@
 <?php
 require_once("auth.php");
+require("library.php");
 require_once("config.php");
 
 if (isset($_POST['tambah'])) {
