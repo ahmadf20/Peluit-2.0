@@ -115,7 +115,6 @@ if (isset($_POST['register'])) {
                         <!-- <h6 class="collapse-header">Daftar Pemilih Tetap</h6> -->
                         <a class="collapse-item" href="tambahDPT.php">Tambah DPT</a>
                         <a class="collapse-item" href="verifDPT.php">Verifikasi DPT</a>
-                        <a class="collapse-item" href="editDPT.php">Edit Data</a>
                         <a class="collapse-item" href="dataDPT.php">DPT Terverifikasi</a>
                     </div>
                 </div>

@@ -104,9 +104,9 @@ class Library
             return "Success";
         }
     }
-    public function updateKandidat($NPM, $noUrut, $visi, $misi, $NPMbefore)
+    public function updateKandidat($NPM, $visi, $misi, $NPMbefore)
     {
-        $sql = "UPDATE kandidat SET NPM='$NPM', NO_URUT='$noUrut', VISI='$visi', MISI='$misi' WHERE  NPM='$NPMbefore'";
+        $sql = "UPDATE kandidat SET NPM='$NPM', VISI='$visi', MISI='$misi' WHERE  NPM='$NPMbefore'";
         $query = $this->db->query($sql);
         
         if (!$query) {

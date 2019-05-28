@@ -6,9 +6,9 @@ $Lib = new Library();
 
 if (isset($_GET['kodeDel'])) {
     $del = $Lib->deleteKandidat($_GET['kodeDel']);
-    if ($del == "Success") {
-        $del = true;
-    }
+    // if ($del == "Success") {
+    //     $del = true;
+    // }
 }
 ?>
 
@@ -115,7 +115,6 @@ if (isset($_GET['kodeDel'])) {
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="tambahDPT.php">Tambah DPT</a>
                         <a class="collapse-item" href="verifDPT.php">Verifikasi DPT</a>
-                        <a class="collapse-item" href="editTPS.php">Edit Data</a>
                         <a class="collapse-item" href="dataDPT.php">DPT Terverifikasi</a>
                     </div>
                 </div>
@@ -212,7 +211,7 @@ if (isset($_GET['kodeDel'])) {
                     // session_unset("edited");
 
                     if (isset($_GET['kodeDel'])) {
-                        if (isset($del)) {
+                        if ($del == "Success") {
                             echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
                         <strong>Selamat!</strong> Data berhasil dihapus.
                         <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
@@ -221,7 +220,7 @@ if (isset($_GET['kodeDel'])) {
                         </div>";
                         } else {
                             echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                            <strong>Error!</strong> Silakan coba lagi.
+                            <strong>Error!</strong> Data tidak dapat dihapus.
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                             <span aria-hidden='true'>&times;</span>
                             </button>

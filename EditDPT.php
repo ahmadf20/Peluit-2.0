@@ -23,16 +23,19 @@ if (isset($_POST['edit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
+    if (!isset($_FILES['Foto'])) {
+        $Foto = $_FILES['Foto']['name'];
+        $tmp = $_FILES['Foto']['tmp_name'];
+        
+        //rename foto
+        $fotobaru = "$npm";
+        // Set path folder tempat menyimpan fotonya
+        $path = "images/$fotobaru";
+        move_uploaded_file($tmp, $path);
+    } else {
+        $fotobaru = $npm;
+    }
     
-    $Foto = $_FILES['Foto']['name'];
-    $tmp = $_FILES['Foto']['tmp_name'];
-
-    //rename foto
-    $fotobaru = "$npm";
-    // Set path folder tempat menyimpan fotonya
-    $path = "images/$fotobaru";
-    move_uploaded_file($tmp, $path);
-
     $Lib = new Library();
     $upd = $Lib->updateMhs($npm, $nama, $ttl, $telp, $jurusan, $angkatan, $alamat, $email, $password, $fotobaru);
     if($upd == "Success"){
@@ -144,7 +147,6 @@ if (isset($_POST['edit'])) {
                             <!-- <h6 class="collapse-header">Daftar Pemilih Tetap</h6> -->
                             <a class="collapse-item" href="tambahDPT.php">Tambah DPT</a>
                             <a class="collapse-item" href="verifDPT.php">Verifikasi DPT</a>
-                            <a class="collapse-item active" href="editDPT.php">Edit Data</a>
                             <a class="collapse-item" href="dataDPT.php">DPT Terverifikasi</a>
                         </div>
                     </div>
@@ -298,7 +300,7 @@ if (isset($_POST['edit'])) {
                                             </div>
                                             <div class="form-group">
                                                 <p>Upload foto anda di sini: </p>
-                                                <input type="file" class="mb-2" name="Foto" required>
+                                                <input type="file" class="mb-2" name="Foto">
                                             </div>
                                             <input type="submit" value="Done" name="edit" class="float-right mb-2 mt-3 btn btn-primary">
                                             <a href="javascript:history.go(-1)" class="btn float-right mb-2 mr-2 mt-3 btn-secondary">Cancel</a>

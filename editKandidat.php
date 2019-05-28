@@ -14,11 +14,11 @@ if (isset($_GET['kode'])) {
 if (isset($_POST['edit'])) {
     $NPMBefore = $edit->NPM;
     $NPM = $_POST['NPM'];
-    $noUrut = $_POST['noUrut'];
     $visi = $_POST['visi'];
     $misi = $_POST['misi'];
     $Lib = new Library();
-    $upd = $Lib->updateKandidat($NPM, $noUrut, $visi, $misi, $NPMBefore);
+    $noUrut = $_POST['noUrut'];
+    $upd = $Lib->updateKandidat($NPM, $visi, $misi, $NPMBefore);
     if ($upd == "Success") {
         header('Location: daftarKandidat.php');
     };
@@ -128,7 +128,6 @@ if (isset($_POST['edit'])) {
                         <!-- <h6 class="collapse-header">Daftar Pemilih Tetap</h6> -->
                         <a class="collapse-item" href="tambahDPT.php">Tambah DPT</a>
                         <a class="collapse-item" href="verifDPT.php">Verifikasi DPT</a>
-                        <a class="collapse-item" href="editDPT.php">Edit Data</a>
                         <a class="collapse-item" href="dataDPT.php">DPT Terverifikasi</a>
                     </div>
                 </div>
@@ -253,7 +252,6 @@ if (isset($_POST['edit'])) {
                                 </div>
 
                                 <div class="col align-center d-none d-lg-block" style="background:url(vendor/calon2.jpg);background-position:center;background-size:cover">
-                                    <!-- <img src="vendor/calon2.jpg" alt=""" height="7%" class="rounded mx-auto d-block"> -->
                                 </div>
                             </div>
                         </div>

@@ -119,7 +119,6 @@ if (isset($_POST['tambah'])) {
                         <!-- <h6 class="collapse-header">Daftar Pemilih Tetap</h6> -->
                         <a class="collapse-item" href="tambahDPT.php">Tambah DPT</a>
                         <a class="collapse-item" href="verifDPT.php">Verifikasi DPT</a>
-                        <a class="collapse-item" href="editDPT.php">Edit Data</a>
                         <a class="collapse-item" href="dataDPT.php">DPT Terverifikasi</a>
                     </div>
                 </div>
@@ -196,14 +195,14 @@ if (isset($_POST['tambah'])) {
                     <?php
                     if (isset($_POST['tambah'])) {
                         if ($add == "Success") {
-                            echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
+                            echo "<div class='alert alert-success alert-dismissible fade show ml-5 mr-5' style='margin-top:15px;margin-bottom:-20px' role='alert'>
                             <strong>Selamat!</strong> Data berhasil ditambahkan.
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                              <span aria-hidden='true'>&times;</span>
                             </button>
                             </div>";
                         } else {
-                            echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
+                            echo "<div class='alert alert-danger alert-dismissible fade show mr-5 ml-5' style='margin-top:15px; margin-bottom:-20px' role='alert'>
                             <strong>Error!</strong> Silakan coba lagi.
                             <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                             <span aria-hidden='true'>&times;</span>
