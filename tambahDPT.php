@@ -266,8 +266,8 @@ if (isset($_POST['register'])) {
                                 </button>
                                 </div>";
                         } else {
-                            echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                                <strong>Error!</strong> Silakan coba lagi.
+                            echo "<div class='alert alert-danger alert-dismissible fade show ml-4 mr-4' style='margin-top:15px; margin-bottom:-20px' role='alert'>
+                                <strong>Error!</strong> NPM yang anda masukkan sudah terdaftar. Silakan coba lagi.
                                 <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
                                 <span aria-hidden='true'>&times;</span>
                                 </button>
