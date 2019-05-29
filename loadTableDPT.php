@@ -1,5 +1,4 @@
 <?php
-require_once("auth.php");
 require_once("config.php");
 ?>
 
@@ -48,6 +47,7 @@ require_once("config.php");
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr role="row">
+                                            <th>Action</th>
                                             <th>NPM</th>
                                             <th>Nama</th>
                                             <th>Jurusan</th>
@@ -57,7 +57,6 @@ require_once("config.php");
                                             <th>Email</th>
                                             <th>Alamat</th>
                                             <th>Foto</th>
-                                            <th colspan="3"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -68,6 +67,10 @@ require_once("config.php");
                                         while ($data = $show->fetch(PDO::FETCH_OBJ)) {
                                             echo "
                                             <tr>
+                                            <td><a class='btn btn-outline-danger btn-sm ml-1 mt-1' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i>
+                                            <a class='btn btn-outline-secondary btn-sm ml-1 mt-1' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i>
+                                            <a class='btn btn-outline-success btn-sm ml-1 mt-1' href='verifDPT.php?NPM=$data->NPM&check=1'><i class='fas fa-user-check'></i></td>
+                                            
                                             <td>$data->NPM</td>
                                             <td>$data->Nama</td>
                                             <td>$data->Jurusan</td>
@@ -78,9 +81,6 @@ require_once("config.php");
                                             <td>$data->Alamat</td>
                                             <td><img src='images/$data->NPM' width='100' height='100'></td>
                                             
-                                            <td><a class='btn btn-outline-danger btn-sm' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i></td>
-                                            <td><a class='btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>
-                                            <td><a class='btn btn-outline-success btn-sm' href='verifDPT.php?NPM=$data->NPM&check=1'><i class='fas fa-user-check'></i></td>
                                             </tr>";
                                         };
                                         ?>
@@ -119,7 +119,23 @@ require_once("config.php");
     <!-- Page level plugins -->
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
     <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
-
+                                        
 </body>
 
 </html>
+
+<?php
+if (isset($_GET['delete'])) {
+    $del = $Lib->deleteMhs($_GET['delete']);
+    if ($del) {
+        $_SESSION["delete"] = true;
+    }
+}
+if (isset($_GET['NPM'])) {
+    $validasi = $Lib->validasiMhs($_GET['NPM']);
+
+    if ($validasi) {
+        $_SESSION["validasi"] = true;
+    }
+}
+?>

@@ -1,5 +1,4 @@
 <?php
-require_once("auth.php");
 require_once("config.php");
 
 $koneksi     = mysqli_connect("localhost", "root", "", "peluit");

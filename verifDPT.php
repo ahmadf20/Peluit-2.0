@@ -1,6 +1,22 @@
 <?php
 require_once("auth.php");
 require_once("config.php");
+require("Library.php");
+$Lib = new Library();
+
+if (isset($_GET['delete'])) {
+    $del = $Lib->deleteMhs($_GET['delete']);
+    if ($del) {
+        $_SESSION["delete"] = true;
+    }
+}
+if (isset($_GET['NPM'])) {
+    $validasi = $Lib->validasiMhs($_GET['NPM']);
+
+    if ($validasi) {
+        $_SESSION["validasi"] = true;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -271,19 +287,7 @@ require_once("config.php");
 
 </html>
 <?php
-if (isset($_GET['delete'])) {
-    $del = $Lib->deleteMhs($_GET['delete']);
-    if ($del) {
-        $_SESSION["delete"] = true;
-    }
-}
-if (isset($_GET['NPM'])) {
-    $validasi = $Lib->validasiMhs($_GET['NPM']);
 
-    if ($validasi) {
-        $_SESSION["validasi"] = true;
-    }
-}
 ?>
 
 
