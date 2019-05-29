@@ -180,6 +180,7 @@ $jumlahMhs = $stmt->fetch(PDO::FETCH_ASSOC);
                 <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["user"]["USERNAME"] ?></span>
                 <img class="img-profile rounded-circle" src="images/default.png">
               </a>
+              
               <!-- Dropdown - User Information -->
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="logout.php">
@@ -193,8 +194,8 @@ $jumlahMhs = $stmt->fetch(PDO::FETCH_ASSOC);
 
         </nav>
         <!-- End of Topbar -->
-
-        <div id="auto"></div>
+  
+        <div id="autoR"></div>
 
       </div>
       <!-- End of Main Content -->
@@ -213,14 +214,14 @@ $jumlahMhs = $stmt->fetch(PDO::FETCH_ASSOC);
   <script src="vendor/jquery/jquery.min.js"></script>
     <script>
         $(document).ready( function(){
-        $('#auto').load('loadDashboard.php');
+        $('#autoR').load('loadDashboard.php');
         refresh();
         });
         
         function refresh()
         {
             setTimeout( function() {
-            $('#auto').load('loadDashboard.php');
+            $('#autoR').load('loadDashboard.php');
             refresh();
             }, 2000);
         }

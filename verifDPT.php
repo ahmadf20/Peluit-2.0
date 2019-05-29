@@ -216,59 +216,7 @@ require_once("config.php");
                     }
 
                     ?>
-
-                    <!-- DataTales Example -->
-                    <div class="card shadow mb-4">
-                        <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">Tabel Calon Pemilih</h6>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr role="row">
-                                            <th>NPM</th>
-                                            <th>Nama</th>
-                                            <th>Jurusan</th>
-                                            <th>Angkatan</th>
-                                            <th>TTL</th>
-                                            <th>No Telp</th>
-                                            <th>Email</th>
-                                            <th>Alamat</th>
-                                            <th>Foto</th>
-                                            <th colspan="3"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
-                                        require("Library.php");
-                                        $Lib = new Library();
-                                        $show = $Lib->showMhsNoVerif();
-                                        while ($data = $show->fetch(PDO::FETCH_OBJ)) {
-                                            echo "
-                                            <tr>
-                                            <td>$data->NPM</td>
-                                            <td>$data->Nama</td>
-                                            <td>$data->Jurusan</td>
-                                            <td>$data->Angkatan</td>
-                                            <td>$data->TTL</td>
-                                            <td>$data->No_Telepon</td>
-                                            <td>$data->Email</td>
-                                            <td>$data->Alamat</td>
-                                            <td><img src='images/$data->NPM' width='100' height='100'></td>
-                                            
-                                            <td><a class='btn btn-outline-danger btn-sm' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i></td>
-                                            <td><a class='btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>
-                                            <td><a class='btn btn-outline-success btn-sm' href='verifDPT.php?NPM=$data->NPM&check=1'><i class='fas fa-user-check'></i></td>
-                                            </tr>";
-                                        };
-                                        ?>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    <div id="refresh"></div>
 
                 </div>
                 <!-- /.container-fluid -->
@@ -297,6 +245,7 @@ require_once("config.php");
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
 
+
     <!-- Page level plugins -->
     <script src="vendor/chart.js/Chart.min.js"></script>
 
@@ -304,6 +253,20 @@ require_once("config.php");
     <script src="js/demo/chart-area-demo.js"></script>
     <script src="js/demo/chart-pie-demo.js"></script>
 
+    <script>
+        $(document).ready( function(){
+        $('#refresh').load('loadTableDPT.php');
+        refresh();
+        });
+        
+        function refresh()
+        {
+            setTimeout( function() {
+            $('#refresh').load('loadTableDPT.php');
+            refresh();
+            }, 2000);
+        }
+    </script>
 </body>
 
 </html>

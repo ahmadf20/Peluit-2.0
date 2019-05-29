@@ -180,23 +180,6 @@ require_once("config.php");
                 <div class="container-fluid">
 
                     <?php
-                    if (isset($_GET['delete'])) {
-                        if (isset($_SESSION["delete"])) {
-                            echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                        <strong>Selamat!</strong> Data berhasil dihapus.
-                        <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                        </button>
-                        </div>";
-                        } else {
-                            echo "<div class='alert alert-danger alert-dismissible fade show' style='margin-top:15px;' role='alert'>
-                            <strong>Error!</strong> Silakan coba lagi.
-                            <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
-                            <span aria-hidden='true'>&times;</span>
-                            </button>
-                        </div>";
-                        }
-                    }
                     if (isset($_GET['check'])) {
                         if (isset($_SESSION["validasi"])) {
                             echo "<div class='alert alert-success alert-dismissible fade show' style='margin-top:15px;' role='alert'>
@@ -214,7 +197,6 @@ require_once("config.php");
                         </div>";
                         }
                     }
-
                     ?>
 
                     <!-- DataTales Example -->
@@ -236,8 +218,8 @@ require_once("config.php");
                                             <th>No Telp</th>
                                             <th>Email</th>
                                             <th>Alamat</th>
-                                            <th>Action</th>
                                             <th>Foto</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -257,9 +239,8 @@ require_once("config.php");
                                             <td>$data->Email</td>
                                             <td>$data->Alamat</td>
                                             <td><img src='images/$data->NPM' width='100' height='100'></td>
-                                            
-                                            <td class='text-center'><a class='btn btn-outline-danger btn-sm' href='verifDPT.php?delete=$data->NPM'><i class='fas fa-user-times'></i>
-                                            <a class='mt-1 btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>
+                                            <td>
+                                            <a class='mt-1 ml-2 btn btn-outline-secondary btn-sm' href='editDPT.php?kode=$data->NPM'><i class='fas fa-user-cog'></i></td>
                                             </tr>";
                                         };
                                         ?>
@@ -307,12 +288,6 @@ require_once("config.php");
 
 </html>
 <?php
-if (isset($_GET['delete'])) {
-    $del = $Lib->deleteMhs($_GET['delete']);
-    if ($del) {
-        $_SESSION["delete"] = true;
-    }
-}
 if (isset($_GET['NPM'])) {
     $validasi = $Lib->validasiMhs($_GET['NPM']);
 

@@ -192,7 +192,7 @@ require_once("config.php");
                 <table class="text-center table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr role="row">
-                        <<th>Kode TPS</th>
+                        <th>Kode TPS</th>
                         <th>Lokasi</th>
                         <th class='text-center'>Action</th>
                     </tr>
@@ -256,11 +256,11 @@ require_once("config.php");
   <script src="js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <!-- <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script> -->
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
+  <!-- <script src="js/demo/datatables-demo.js"></script> -->
 
 </body>
 
