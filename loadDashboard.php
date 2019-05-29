@@ -1,7 +1,7 @@
 <?php
 require_once("config.php");
 
-$koneksi     = mysqli_connect("localhost", "root", "", "peluit");
+$koneksi     = mysqli_connect("localhost", "root", "", "pemilu");
 $noUrut       = mysqli_query($koneksi, "SELECT * FROM VOTE GROUP BY NO_URUT");
 $count     = mysqli_query($koneksi, "SELECT COUNT(NO_URUT) as A FROM VOTE GROUP BY NO_URUT");
 $angkatan    = mysqli_query($koneksi, "SELECT mahasiswa.angkatan as angkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");
@@ -14,7 +14,7 @@ $stmt = $db->prepare($sql);
 $stmt->execute();
 $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$sql = "SELECT count(*) as A FROM mahasiswa WHERE validasi = 1";
+$sql = "SELECT count(*) as A FROM mahasiswa, akun WHERE mahasiswa.NPM = akun.USERNAME and validasi = 1 and akun.admin = 0";
 $stmt = $db->prepare($sql);
 $stmt->execute();
 $jumlahMhs = $stmt->fetch(PDO::FETCH_ASSOC);

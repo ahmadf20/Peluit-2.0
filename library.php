@@ -5,7 +5,7 @@ class Library
     {
         try {    
             //create PDO connection 
-            $this->db = new PDO('mysql:host=localhost;dbname=peluit', 'root', '');
+            $this->db = new PDO('mysql:host=localhost;dbname=pemilu', 'root', '');
         } catch(PDOException $e) {
             //show error
             die("Terjadi masalah: " . $e->getMessage());
@@ -117,7 +117,7 @@ class Library
     }
     public function showMhsNoVerif()
     {
-        $sql = "SELECT * FROM mahasiswa WHERE validasi=0";
+        $sql = "SELECT * FROM mahasiswa, akun WHERE USERNAME = NPM and validasi=0 and admin = 0";
         $query = $this->db->query($sql);
         return $query;
     }
@@ -135,7 +135,7 @@ class Library
     }
     public function showMhsVerif()
     {
-        $sql = "SELECT * FROM mahasiswa WHERE validasi=1";
+        $sql = "SELECT * FROM mahasiswa, akun WHERE USERNAME = NPM and validasi = 1 and admin = 0";
         $query = $this->db->query($sql);
         return $query;
     }

@@ -2,7 +2,7 @@
 require_once("auth.php");
 require_once("config.php");
 
-$koneksi     = mysqli_connect("localhost", "root", "", "peluit");
+$koneksi     = mysqli_connect("localhost", "root", "", "pemilu");
 $noUrut       = mysqli_query($koneksi, "SELECT * FROM VOTE GROUP BY NO_URUT");
 $count     = mysqli_query($koneksi, "SELECT COUNT(NO_URUT) as A FROM VOTE GROUP BY NO_URUT");
 $angkatan    = mysqli_query($koneksi, "SELECT mahasiswa.angkatan as angkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");

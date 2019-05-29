@@ -3,7 +3,7 @@
 $db_host = "localhost";
 $db_user = "root";
 $db_pass = "";
-$db_name = "peluit";
+$db_name = "pemilu";
 
 try {    
     //create PDO connection 
@@ -16,7 +16,7 @@ try {
 // $server = "localhost";
 // $user = "root";
 // $password = "";
-// $nama_database = "peluit";
+// $nama_database = "pemilu";
 
 // $db = mysqli_connect($server, $user, $password, $nama_database);
 

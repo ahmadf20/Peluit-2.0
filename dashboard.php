@@ -1,25 +1,6 @@
 <?php
 require_once("auth.php");
 require_once("config.php");
-
-$koneksi     = mysqli_connect("localhost", "root", "", "peluit");
-$noUrut       = mysqli_query($koneksi, "SELECT * FROM VOTE GROUP BY NO_URUT");
-$count     = mysqli_query($koneksi, "SELECT COUNT(NO_URUT) as A FROM VOTE GROUP BY NO_URUT");
-$angkatan    = mysqli_query($koneksi, "SELECT mahasiswa.angkatan as angkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");
-$countAngkatan   = mysqli_query($koneksi, "SELECT COUNT(Angkatan) as FrekuensiAngkatan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Angkatan");
-$jurusan   = mysqli_query($koneksi, "SELECT mahasiswa.Jurusan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Jurusan");
-$countJurusan   = mysqli_query($koneksi, "SELECT COUNT(Jurusan) as FrekuensiJurusan from vote join mahasiswa WHERE mahasiswa.npm = vote.NPM GROUP By Jurusan");
-
-$sql = "SELECT count(*) as A FROM vote";
-$stmt = $db->prepare($sql);
-$stmt->execute();
-$result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-$sql = "SELECT count(*) as A FROM mahasiswa WHERE validasi = 1";
-$stmt = $db->prepare($sql);
-$stmt->execute();
-$jumlahMhs = $stmt->fetch(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>

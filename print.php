@@ -7,7 +7,7 @@ $username = 'root';
  $password = '';
 
 try {
-    $dbh = new PDO("mysql:host=$hostname;dbname=peluit", $username, $password);
+    $dbh = new PDO("mysql:host=$hostname;dbname=pemilu", $username, $password);
     /*** echo a message saying we have connected ***/
     echo 'Connected to database<br />';
 
