@@ -4,8 +4,8 @@
     cannot update or delete a parent row!
  -->
 
-create database peluit;
-use peluit;
+create database pemilu;
+use pemilu;
 create table mahasiswa (
     NPM varchar(12) not null,
     Nama varchar(30) not null,
